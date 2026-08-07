@@ -28,8 +28,13 @@ export async function createCategory(formData: FormData) {
 
 export async function updateCategory(id: string, formData: FormData) {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not authenticated");
+
   const values = parseCategoryForm(formData);
-  const { error } = await supabase.from("categories").update(values).eq("id", id);
+  const { error } = await supabase.from("categories").update(values).eq("id", id).eq("user_id", user.id);
   if (error) throw new Error(error.message);
 
   revalidatePath("/dashboard/categories");
@@ -38,7 +43,12 @@ export async function updateCategory(id: string, formData: FormData) {
 
 export async function deleteCategory(id: string) {
   const supabase = await createClient();
-  const { error } = await supabase.from("categories").delete().eq("id", id);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("Not authenticated");
+
+  const { error } = await supabase.from("categories").delete().eq("id", id).eq("user_id", user.id);
   if (error) throw new Error(error.message);
 
   revalidatePath("/dashboard/categories");

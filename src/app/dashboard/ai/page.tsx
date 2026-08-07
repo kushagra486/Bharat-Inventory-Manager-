@@ -7,7 +7,10 @@ import { AiChat } from "@/app/dashboard/ai/ai-chat";
 
 export default async function AiInsightsPage() {
   const supabase = await createClient();
-  const ctx = await getInsightsContext(supabase);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const ctx = await getInsightsContext(supabase, user!.id);
 
   return (
     <div className="flex flex-col gap-6">

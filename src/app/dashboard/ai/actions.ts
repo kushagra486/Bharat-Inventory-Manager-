@@ -22,7 +22,7 @@ export async function askAi(history: ChatMessage[]): Promise<string> {
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
 
-  const ctx = await getInsightsContext(supabase);
+  const ctx = await getInsightsContext(supabase, user.id);
   const dataSummary = insightsContextToPrompt(ctx);
 
   const systemPrompt = `You are the AI assistant inside Bharat Inventory Manager AI, an inventory and sales dashboard for a small Indian retail shop. Answer questions about the shop's inventory, sales, and give practical restocking/business advice. Use only the data below — never invent numbers. Keep answers short (2-4 sentences unless asked for detail), use ₹ for currency, and speak like a helpful business assistant, not a generic chatbot.

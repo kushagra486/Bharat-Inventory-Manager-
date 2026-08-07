@@ -34,6 +34,7 @@ export async function checkout(
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select("id, name, quantity")
+    .eq("user_id", user.id)
     .in("id", productIds);
   if (productsError) throw new Error(productsError.message);
 
@@ -84,7 +85,8 @@ export async function checkout(
     const { error: stockError } = await supabase
       .from("products")
       .update({ quantity: product.quantity - line.quantity })
-      .eq("id", line.productId);
+      .eq("id", line.productId)
+      .eq("user_id", user.id);
     if (stockError) throw new Error(stockError.message);
   }
 

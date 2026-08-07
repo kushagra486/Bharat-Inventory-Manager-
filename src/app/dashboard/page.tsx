@@ -16,20 +16,25 @@ function getExpiryWindow() {
 export default async function DashboardPage() {
   const supabase = await createClient();
 
-  const [userRes, productsRes, categoriesRes, suppliersRes] = await Promise.all([
-    supabase.auth.getUser(),
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const [productsRes, categoriesRes, suppliersRes] = await Promise.all([
     supabase
       .from("products")
       .select("id, name, quantity, unit, expiry_date, categories(name, color)")
+      .eq("user_id", user!.id)
       .eq("is_archived", false),
-    supabase.from("categories").select("id", { count: "exact", head: true }),
-    supabase.from("suppliers").select("id", { count: "exact", head: true }),
+    supabase
+      .from("categories")
+      .select("id", { count: "exact", head: true })
+      .or(`user_id.is.null,user_id.eq.${user!.id}`),
+    supabase.from("suppliers").select("id", { count: "exact", head: true }).eq("user_id", user!.id),
   ]);
 
   const displayName =
-    (userRes.data.user?.user_metadata?.full_name as string | undefined) ||
-    userRes.data.user?.email?.split("@")[0] ||
-    "there";
+    (user?.user_metadata?.full_name as string | undefined) || user?.email?.split("@")[0] || "there";
 
   const products = productsRes.data ?? [];
   const { now, cutoff: warningCutoff } = getExpiryWindow();

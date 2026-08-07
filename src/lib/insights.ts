@@ -5,11 +5,12 @@ const LOW_STOCK_THRESHOLD = 5;
 const RESTOCK_TARGET = 20;
 const EXPIRY_RISK_DAYS = 7;
 
-export async function getInsightsContext(supabase: SupabaseClient<Database>) {
+export async function getInsightsContext(supabase: SupabaseClient<Database>, userId: string) {
   const [productsRes, itemsRes, ordersRes] = await Promise.all([
     supabase
       .from("products")
       .select("id, name, quantity, unit, expiry_date, price")
+      .eq("user_id", userId)
       .eq("is_archived", false),
     supabase
       .from("sales_order_items")

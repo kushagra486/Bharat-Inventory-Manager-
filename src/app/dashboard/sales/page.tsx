@@ -3,15 +3,19 @@ import { PosView } from "@/app/dashboard/sales/pos-view";
 
 export default async function SalesPage() {
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const [productsRes, customersRes] = await Promise.all([
     supabase
       .from("products")
       .select("id, name, price, quantity, unit, categories(name)")
+      .eq("user_id", user!.id)
       .eq("is_archived", false)
       .gt("quantity", 0)
       .order("name"),
-    supabase.from("customers").select("id, name").order("name"),
+    supabase.from("customers").select("id, name").eq("user_id", user!.id).order("name"),
   ]);
 
   return (
