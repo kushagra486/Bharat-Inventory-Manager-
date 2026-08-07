@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { useActionState } from "react";
 import { signUp, type AuthState } from "@/app/auth-actions";
 import { Button } from "@/components/ui/button";
@@ -20,9 +21,18 @@ export default function SignupPage() {
   const [state, formAction, isPending] = useActionState(signUp, initialState);
 
   return (
-    <div className="flex min-h-svh items-center justify-center bg-muted/40 p-4">
+    <div
+      className="flex min-h-svh items-center justify-center p-4"
+      style={{
+        background:
+          "radial-gradient(ellipse 60% 50% at 50% 0%, color-mix(in srgb, var(--primary) 12%, transparent) 0%, transparent 70%), var(--background)",
+      }}
+    >
       <Card className="w-full max-w-sm">
         <CardHeader>
+          <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <Sparkles className="size-4" />
+          </div>
           <CardTitle className="text-xl">Create your account</CardTitle>
           <CardDescription>
             Start managing your shop&apos;s inventory with BIM AI

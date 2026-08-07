@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
-import { MoreHorizontal, Plus } from "lucide-react";
+import { MoreHorizontal, Plus, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -71,12 +72,24 @@ export function ProductsTable({
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState<Product | null>(null);
+  const [selected, setSelected] = useState<Product | null>(null);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("all");
   const [isPending, startTransition] = useTransition();
 
   const sorted = useMemo(
     () => [...products].sort((a, b) => a.name.localeCompare(b.name)),
     [products],
   );
+
+  const filtered = useMemo(() => {
+    return sorted.filter((p) => {
+      if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
+      if (filter === "low-stock") return p.quantity <= LOW_STOCK_THRESHOLD;
+      if (filter !== "all") return p.categories?.name === filter;
+      return true;
+    });
+  }, [sorted, search, filter]);
 
   function openCreate() {
     setEditing(null);
@@ -112,12 +125,20 @@ export function ProductsTable({
       try {
         await deleteProduct(deleting.id);
         toast.success("Product deleted");
+        if (selected?.id === deleting.id) setSelected(null);
         setDeleting(null);
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "Something went wrong");
       }
     });
   }
+
+  const uniqueCategoryNames = [...new Set(categories.map((c) => c.name))];
+  const filterChips = [
+    { key: "all", label: "All" },
+    { key: "low-stock", label: "Low stock" },
+    ...uniqueCategoryNames.map((name) => ({ key: name, label: name })),
+  ];
 
   return (
     <div className="flex flex-col gap-4">
@@ -247,69 +268,147 @@ export function ProductsTable({
         </Dialog>
       </div>
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Supplier</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Expiry</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead className="w-10" />
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sorted.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={7} className="text-center text-muted-foreground">
-                  No products yet. Add your first product to get started.
-                </TableCell>
-              </TableRow>
-            )}
-            {sorted.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell className="font-medium">{product.name}</TableCell>
-                <TableCell>
-                  {product.categories ? (
-                    <Badge variant="outline">{product.categories.name}</Badge>
-                  ) : (
-                    <span className="text-muted-foreground">—</span>
+      <div className="grid gap-4 lg:grid-cols-[2fr_1fr] lg:items-start">
+        <Card>
+          <CardContent className="flex flex-col gap-3">
+            <div className="relative">
+              <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search products"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-8"
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {filterChips.map((chip) => (
+                <Badge
+                  key={chip.key}
+                  variant={filter === chip.key ? "default" : "outline"}
+                  className="cursor-pointer"
+                  onClick={() => setFilter(chip.key)}
+                >
+                  {chip.label}
+                </Badge>
+              ))}
+            </div>
+
+            <div className="overflow-hidden rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Stock</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Supplier</TableHead>
+                    <TableHead className="w-10" />
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filtered.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center text-muted-foreground">
+                        No products match.
+                      </TableCell>
+                    </TableRow>
                   )}
-                </TableCell>
-                <TableCell>{product.suppliers?.name ?? "—"}</TableCell>
-                <TableCell>
-                  <Badge variant={product.quantity <= LOW_STOCK_THRESHOLD ? "destructive" : "secondary"}>
-                    {product.quantity} {product.unit}
-                  </Badge>
-                </TableCell>
-                <TableCell>{product.expiry_date}</TableCell>
-                <TableCell>{product.price != null ? `₹${product.price}` : "—"}</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      render={
-                        <Button variant="ghost" size="icon" className="size-8">
-                          <MoreHorizontal className="size-4" />
-                        </Button>
-                      }
-                    />
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => openEdit(product)}>Edit</DropdownMenuItem>
-                      <DropdownMenuItem
-                        variant="destructive"
-                        onClick={() => setDeleting(product)}
-                      >
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                  {filtered.map((product) => (
+                    <TableRow
+                      key={product.id}
+                      className="cursor-pointer"
+                      data-state={selected?.id === product.id ? "selected" : undefined}
+                      onClick={() => setSelected(product)}
+                    >
+                      <TableCell className="font-medium">{product.name}</TableCell>
+                      <TableCell>
+                        {product.categories ? (
+                          <Badge variant="outline">{product.categories.name}</Badge>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={product.quantity <= LOW_STOCK_THRESHOLD ? "destructive" : "secondary"}>
+                          {product.quantity} {product.unit}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{product.price != null ? `₹${product.price}` : "—"}</TableCell>
+                      <TableCell>{product.suppliers?.name ?? "—"}</TableCell>
+                      <TableCell onClick={(e) => e.stopPropagation()}>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger
+                            render={
+                              <Button variant="ghost" size="icon" className="size-8">
+                                <MoreHorizontal className="size-4" />
+                              </Button>
+                            }
+                          />
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => openEdit(product)}>Edit</DropdownMenuItem>
+                            <DropdownMenuItem variant="destructive" onClick={() => setDeleting(product)}>
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent>
+            {selected ? (
+              <div className="flex flex-col gap-3">
+                <p className="text-xs font-medium tracking-wide text-primary uppercase">
+                  Product detail
+                </p>
+                <p className="text-base font-medium">{selected.name}</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Stock</p>
+                    <p className="font-medium">
+                      {selected.quantity} {selected.unit}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Price</p>
+                    <p className="font-medium">{selected.price != null ? `₹${selected.price}` : "—"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Expiry</p>
+                    <p className="font-medium">{selected.expiry_date}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Batch</p>
+                    <p className="font-medium">{selected.batch_number ?? "—"}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Supplier: {selected.suppliers?.name ?? "—"}
+                  {selected.location ? ` · Location: ${selected.location}` : ""}
+                </p>
+                {selected.notes && <p className="text-sm text-muted-foreground">{selected.notes}</p>}
+                <div className="flex gap-2">
+                  <Button variant="secondary" className="flex-1" onClick={() => openEdit(selected)}>
+                    Edit
+                  </Button>
+                  <Button variant="outline" onClick={() => setSelected(null)}>
+                    Close
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <p className="py-10 text-center text-sm text-muted-foreground">
+                Select a product to see its details.
+              </p>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       <AlertDialog open={!!deleting} onOpenChange={(next) => !next && setDeleting(null)}>
