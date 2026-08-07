@@ -101,7 +101,8 @@ Row-Level Security — not a mockup.
 | 📋 **Orders** | Every transaction rung up through the POS, with editable status |
 | 📊 **Reports** | Revenue & category charts, average order value, CSV/PDF export — computed from real orders |
 | 🤖 **AI Insights** | Restock suggestions, expiry-risk alerts, best-sellers, and a Groq-powered chat assistant grounded in your live data |
-| ⚙️ **Settings** | Business profile, account info, expiry-notification preferences |
+| ⚙️ **Settings** | Business profile, account info, expiry-notification preferences, shareable storefront link |
+| 🛍️ **Bharat Store** (customer app) | `/shop/[ownerId]` — mobile shopping app for your customers: browse live stock, ask Bharat AI for a basket, cart, checkout, order history, loyalty points |
 
 ## 🛠️ Tech stack
 
@@ -197,6 +198,11 @@ src/
       reports/                 # Revenue/category analytics + CSV/PDF export
       ai/                      # AI Insights + Groq-powered chat
       settings/                # Business profile, account, notifications
+    shop/[ownerId]/            # Bharat Store — customer-facing shopping app
+      layout.tsx               # Manrope/DM Mono fonts + storefront theme scope
+      page.tsx                 # Loads shop's real products/categories, no auth required
+      _components/             # Home, Search (AI), Cart, Orders, Profile screens
+      actions.ts, ai-actions.ts  # Checkout RPC call, Groq-grounded basket search
     auth-actions.ts            # signIn / signUp / signOut server actions
   components/
     app-sidebar.tsx            # Dashboard navigation
@@ -209,14 +215,17 @@ src/
 
 ## 🗺️ Roadmap
 
-Everything in the Owner Dashboard above is built and live. Still ahead, per
-the original product vision (see [VISION.md](./VISION.md) for the full list):
+The Owner Dashboard and the customer-facing **Bharat Store** app
+(`/shop/[ownerId]`) are both built and live — browse real stock, add to cart,
+ask the Groq-powered AI for a basket, and check out into the same orders the
+owner sees in their dashboard. Still ahead, per the original product vision
+(see [VISION.md](./VISION.md) for the full list):
 
-- 📱 Customer-facing shopping app
 - 👷 Employee dashboard with role-based permissions
 - 🖼️ Barcode/OCR invoice scanning, voice assistant
 - 🔔 Real push/email delivery for expiry reminders (the settings exist; the sender doesn't yet)
 - 💳 Payments (Razorpay/Stripe), multi-store support, GST invoicing
+- 🚚 Live delivery tracking for storefront orders
 
 ## 🤝 Contributing
 
