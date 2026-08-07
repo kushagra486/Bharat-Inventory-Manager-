@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, claude/bharat-inventory-manager-ai-nrx1uz]
   pull_request:
 
 jobs:
