@@ -128,6 +128,36 @@
   --sidebar-ring: #9184d9;
 }
 
+/*
+  "Bharat Store" — light, colorful theme for the customer-facing storefront
+  (/shop routes), scoped to this class so it coexists with the dark
+  Nocturne theme used everywhere else in the app.
+*/
+.storefront-theme {
+  --background: #edf1fb;
+  --foreground: #14213d;
+  --card: #ffffff;
+  --card-foreground: #14213d;
+  --popover: #ffffff;
+  --popover-foreground: #14213d;
+  --primary: #315cf4;
+  --primary-foreground: #ffffff;
+  --secondary: #4b35d7;
+  --secondary-foreground: #ffffff;
+  --muted: #f0f3fb;
+  --muted-foreground: #65708a;
+  --accent: #eaf0ff;
+  --accent-foreground: #315cf4;
+  --destructive: #f34984;
+  --border: #e9edf5;
+  --input: #e9edf5;
+  --ring: #315cf4;
+  --radius: 1.1rem;
+  --font-sans: var(--font-manrope);
+  --font-heading: var(--font-manrope);
+  --font-mono: var(--font-dm-mono);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -47,6 +47,7 @@ export type Database = {
       customers: {
         Row: {
           address: string | null
+          auth_user_id: string | null
           created_at: string
           email: string | null
           id: string
@@ -57,6 +58,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          auth_user_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -67,6 +69,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          auth_user_id?: string | null
           created_at?: string
           email?: string | null
           id?: string
@@ -371,7 +374,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      place_customer_order: {
+        Args: {
+          p_customer_name: string
+          p_customer_phone: string
+          p_items: Json
+          p_owner_id: string
+          p_payment_method?: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

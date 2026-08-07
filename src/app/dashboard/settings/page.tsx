@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { ProfileForm } from "@/app/dashboard/settings/profile-form";
 import { NotificationSettings } from "@/app/dashboard/settings/notification-settings";
+import { StorefrontLink } from "@/app/dashboard/settings/storefront-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function SettingsPage() {
@@ -32,6 +33,17 @@ export default async function SettingsPage() {
         </CardHeader>
         <CardContent>
           <ProfileForm profile={profileRes.data} />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xs font-medium tracking-wide text-primary uppercase">
+            Customer storefront
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <StorefrontLink ownerId={user!.id} />
         </CardContent>
       </Card>
 
