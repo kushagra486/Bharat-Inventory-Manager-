@@ -19,6 +19,8 @@ export async function updateProfile(formData: FormData) {
     full_name: toNullable(formData.get("full_name")),
     business_name: toNullable(formData.get("business_name")),
     phone: toNullable(formData.get("phone")),
+    delivery_estimate: toNullable(formData.get("delivery_estimate")),
+    service_area: toNullable(formData.get("service_area")),
   };
 
   const { error } = await supabase.from("user_profiles").upsert({ id: user.id, ...values });
@@ -29,6 +31,7 @@ export async function updateProfile(formData: FormData) {
 
   revalidatePath("/dashboard/settings");
   revalidatePath("/dashboard");
+  revalidatePath("/shop");
 }
 
 export async function createNotificationSetting(formData: FormData) {

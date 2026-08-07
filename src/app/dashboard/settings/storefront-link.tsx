@@ -47,8 +47,9 @@ export function StorefrontLink({ ownerId }: { ownerId: string }) {
         />
       </div>
       <p className="text-xs text-muted-foreground">
-        Share this link with customers — they sign in or create a free account, then browse your live
-        stock and order for delivery or pickup.
+        Share this link with customers — it opens your shop inside the Bharat Store marketplace, where
+        they sign in and order for delivery. Your shop also appears automatically in the marketplace
+        directory and cross-shop search alongside every other shop.
       </p>
     </div>
   );

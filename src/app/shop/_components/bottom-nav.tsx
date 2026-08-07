@@ -1,7 +1,7 @@
 "use client";
 
 import { Home, Search, ShoppingCart, Package, CircleUserRound } from "lucide-react";
-import type { Screen } from "@/app/shop/[ownerId]/_components/types";
+import type { Screen } from "@/app/shop/_components/types";
 
 const NAV_ITEMS: { id: Screen; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Home", icon: Home },

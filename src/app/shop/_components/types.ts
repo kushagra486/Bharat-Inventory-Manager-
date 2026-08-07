@@ -1,3 +1,12 @@
+export type ShopVM = {
+  id: string;
+  name: string;
+  deliveryEstimate: string | null;
+  serviceArea: string | null;
+  productCount: number;
+  categoryIcons: string[];
+};
+
 export type CategoryVM = {
   id: string;
   name: string;
@@ -14,6 +23,9 @@ export type ProductVM = {
   categoryId: string | null;
   categoryName: string | null;
   categoryIcon: string;
+  ownerId: string;
+  shopName: string;
+  deliveryEstimate: string | null;
 };
 
 export type CartLine = {
@@ -23,6 +35,9 @@ export type CartLine = {
   quantity: number;
   unit: string;
   categoryIcon: string;
+  ownerId: string;
+  shopName: string;
+  deliveryEstimate: string | null;
 };
 
 export type CustomerProfileVM = {
@@ -45,6 +60,7 @@ export type OrderVM = {
   status: string;
   total: number;
   createdAt: string;
+  shopName: string;
   items: OrderItemVM[];
 };
 

@@ -2,8 +2,8 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { askShoppingAi } from "@/app/shop/[ownerId]/ai-actions";
-import type { ProductVM } from "@/app/shop/[ownerId]/_components/types";
+import { askShoppingAi } from "@/app/shop/ai-actions";
+import type { ProductVM } from "@/app/shop/_components/types";
 
 const PROMPTS = [
   { icon: "🥗", label: "Plan dinner for 4" },
@@ -13,11 +13,9 @@ const PROMPTS = [
 ];
 
 export function SearchScreen({
-  ownerId,
   products,
   onAddProducts,
 }: {
-  ownerId: string;
   products: ProductVM[];
   onAddProducts: (products: ProductVM[]) => void;
 }) {
@@ -31,9 +29,9 @@ export function SearchScreen({
     setQuery(q);
     startTransition(async () => {
       try {
-        const res = await askShoppingAi(ownerId, q);
-        const items = res.productIds
-          .map((id) => products.find((p) => p.id === id))
+        const res = await askShoppingAi(q);
+        const items = res.items
+          .map((i) => products.find((p) => p.id === i.productId))
           .filter((p): p is ProductVM => Boolean(p));
         setResult({ message: res.message, items });
       } catch (err) {
@@ -49,6 +47,9 @@ export function SearchScreen({
         Bharat AI assistant
       </div>
       <h1 className="my-2 text-[25px] font-extrabold text-foreground">What can I shop for you?</h1>
+      <p className="mb-3 text-xs text-muted-foreground">
+        Searches real stock across every shop in the marketplace.
+      </p>
 
       <div className="flex gap-2 rounded-2xl bg-muted p-2">
         <input
@@ -99,6 +100,10 @@ export function SearchScreen({
                   <li key={item.id} className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>
                       {item.categoryIcon} {item.name}
+                      <span className="ml-1.5 text-[10px]">· {item.shopName}</span>
+                      {item.deliveryEstimate && (
+                        <span className="ml-1 text-[10px] text-primary">· {item.deliveryEstimate}</span>
+                      )}
                     </span>
                     <span className="font-mono text-foreground">₹{item.price}</span>
                   </li>

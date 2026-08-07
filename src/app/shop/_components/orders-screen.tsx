@@ -1,7 +1,7 @@
 "use client";
 
 import { Package } from "lucide-react";
-import type { OrderVM } from "@/app/shop/[ownerId]/_components/types";
+import type { OrderVM } from "@/app/shop/_components/types";
 
 const STATUS_STYLES: Record<string, string> = {
   pending: "bg-[#fff3e4] text-[#b3651a]",
@@ -51,7 +51,10 @@ export function OrdersScreen({
           {orders.map((order) => (
             <li key={order.id} className="rounded-2xl border border-border bg-card p-3.5">
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs font-medium text-foreground">{order.orderNumber}</span>
+                <div className="flex flex-col">
+                  <span className="text-xs font-extrabold text-foreground">{order.shopName}</span>
+                  <span className="font-mono text-[11px] text-muted-foreground">{order.orderNumber}</span>
+                </div>
                 <span
                   className={`rounded-[8px] px-2 py-1 text-[10px] font-extrabold uppercase ${
                     STATUS_STYLES[order.status] ?? "bg-muted text-muted-foreground"

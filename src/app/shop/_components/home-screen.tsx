@@ -1,10 +1,11 @@
 "use client";
 
-import { Mic, Search, ScanLine, Heart } from "lucide-react";
-import type { CategoryVM, ProductVM } from "@/app/shop/[ownerId]/_components/types";
+import Link from "next/link";
+import { Mic, Search, ScanLine, Heart, ArrowLeft, Clock } from "lucide-react";
+import type { CategoryVM, ProductVM, ShopVM } from "@/app/shop/_components/types";
 
 export function HomeScreen({
-  shopName,
+  shop,
   customerName,
   products,
   categories,
@@ -14,7 +15,7 @@ export function HomeScreen({
   onAddToCart,
   onOpenSearch,
 }: {
-  shopName: string;
+  shop: ShopVM;
   customerName: string | null;
   products: ProductVM[];
   categories: CategoryVM[];
@@ -24,6 +25,7 @@ export function HomeScreen({
   onAddToCart: (product: ProductVM) => void;
   onOpenSearch: () => void;
 }) {
+  const shopName = shop.name;
   const visibleProducts = activeCategoryId
     ? products.filter((p) => p.categoryId === activeCategoryId)
     : products;
@@ -36,10 +38,21 @@ export function HomeScreen({
     <>
       <header className="relative overflow-hidden bg-[radial-gradient(circle_at_88%_12%,#91e5ff_0,transparent_26%),linear-gradient(134deg,#14399f,#3c4cdf_60%,#683fe7)] px-5 pt-6 pb-7 text-white">
         <div className="absolute -right-24 -bottom-24 size-[180px] rounded-full border-[28px] border-white/10" />
+        <Link href="/shop" className="relative mb-3 flex items-center gap-1 text-[11px] font-bold opacity-90">
+          <ArrowLeft className="size-3.5" />
+          All shops
+        </Link>
         <div className="relative flex items-center justify-between">
           <div>
             <span className="block text-[11px] opacity-80">{shopName.toUpperCase()}</span>
-            <div className="mt-0.5 text-[15px] font-extrabold">Ordering made simple</div>
+            {shop.deliveryEstimate ? (
+              <div className="mt-0.5 flex items-center gap-1 text-[15px] font-extrabold">
+                <Clock className="size-3.5" />
+                {shop.deliveryEstimate} delivery
+              </div>
+            ) : (
+              <div className="mt-0.5 text-[15px] font-extrabold">Ordering made simple</div>
+            )}
           </div>
           <div className="grid size-[38px] place-items-center rounded-2xl bg-gradient-to-br from-[#ffd897] to-[#ff9c74] text-lg shadow-[0_5px_17px_#14298966]">
             🧑

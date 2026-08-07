@@ -16,10 +16,10 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: "Bharat Store — shop local, delivered fast",
-  description: "Browse real stock and order from your neighbourhood shop.",
+  description: "Browse real stock from nearby shops and order for fast delivery.",
 };
 
-export default function ShopLayout({ children }: LayoutProps<"/shop/[ownerId]">) {
+export default function ShopLayout({ children }: LayoutProps<"/shop">) {
   return (
     <div className={`${manrope.variable} ${dmMono.variable} storefront-theme min-h-screen bg-background`}>
       {children}

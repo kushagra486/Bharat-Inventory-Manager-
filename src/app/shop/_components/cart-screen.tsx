@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import { Minus, Plus, ShoppingCart, Clock, Store } from "lucide-react";
 import { toast } from "sonner";
-import type { CartLine, CustomerProfileVM } from "@/app/shop/[ownerId]/_components/types";
+import type { CartLine, CustomerProfileVM } from "@/app/shop/_components/types";
 
 const GST_RATE = 0.05;
 const PAYMENT_METHODS = ["cod", "upi", "card"] as const;
@@ -30,9 +30,25 @@ export function CartScreen({
   const [paymentMethod, setPaymentMethod] = useState<(typeof PAYMENT_METHODS)[number]>("cod");
   const [isPending, startTransition] = useTransition();
 
-  const subtotal = cart.reduce((sum, l) => sum + l.price * l.quantity, 0);
-  const tax = Math.round(subtotal * GST_RATE * 100) / 100;
-  const total = subtotal + tax;
+  const groups = useMemo(() => {
+    const byShop = new Map<string, { shopName: string; deliveryEstimate: string | null; lines: CartLine[] }>();
+    for (const line of cart) {
+      const g = byShop.get(line.ownerId) ?? {
+        shopName: line.shopName,
+        deliveryEstimate: line.deliveryEstimate,
+        lines: [],
+      };
+      g.lines.push(line);
+      byShop.set(line.ownerId, g);
+    }
+    return [...byShop.entries()].map(([ownerId, g]) => {
+      const subtotal = g.lines.reduce((sum, l) => sum + l.price * l.quantity, 0);
+      const tax = Math.round(subtotal * GST_RATE * 100) / 100;
+      return { ownerId, ...g, subtotal, tax, total: subtotal + tax };
+    });
+  }, [cart]);
+
+  const grandTotal = groups.reduce((sum, g) => sum + g.total, 0);
 
   function handleCheckout() {
     if (!isAuthenticated) {
@@ -71,52 +87,86 @@ export function CartScreen({
 
   return (
     <div className="px-4 py-5">
-      <h1 className="mb-4 text-2xl font-extrabold text-foreground">Your cart</h1>
+      <h1 className="mb-1 text-2xl font-extrabold text-foreground">Your cart</h1>
+      {groups.length > 1 && (
+        <p className="mb-4 text-xs text-muted-foreground">
+          Items from {groups.length} shops — each is placed as a separate order.
+        </p>
+      )}
 
-      <ul className="flex flex-col gap-2.5">
-        {cart.map((line) => (
-          <li key={line.productId} className="flex items-center justify-between rounded-2xl border border-border bg-card p-3">
-            <div className="flex items-center gap-3">
-              <div className="grid size-11 place-items-center rounded-xl bg-muted text-xl">{line.categoryIcon}</div>
-              <div>
-                <p className="text-xs font-semibold text-foreground">{line.name}</p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">
-                  ₹{line.price} · {line.unit}
-                </p>
+      <div className="flex flex-col gap-5">
+        {groups.map((group) => (
+          <div key={group.ownerId} className="flex flex-col gap-2.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xs font-extrabold text-foreground">
+                <Store className="size-3.5 text-primary" />
+                {group.shopName}
+              </div>
+              {group.deliveryEstimate && (
+                <div className="flex items-center gap-1 text-[11px] font-semibold text-primary">
+                  <Clock className="size-3" />
+                  {group.deliveryEstimate}
+                </div>
+              )}
+            </div>
+
+            <ul className="flex flex-col gap-2.5">
+              {group.lines.map((line) => (
+                <li
+                  key={line.productId}
+                  className="flex items-center justify-between rounded-2xl border border-border bg-card p-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="grid size-11 place-items-center rounded-xl bg-muted text-xl">
+                      {line.categoryIcon}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-foreground">{line.name}</p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">
+                        ₹{line.price} · {line.unit}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => onChangeQty(line.productId, -1)}
+                      className="grid size-7 place-items-center rounded-full bg-muted text-foreground"
+                    >
+                      <Minus className="size-3.5" />
+                    </button>
+                    <span className="w-4 text-center text-xs font-bold">{line.quantity}</span>
+                    <button
+                      onClick={() => onChangeQty(line.productId, 1)}
+                      className="grid size-7 place-items-center rounded-full bg-accent text-primary"
+                    >
+                      <Plus className="size-3.5" />
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-col gap-1 rounded-2xl border border-border bg-card p-3.5 text-sm">
+              <div className="flex justify-between text-muted-foreground">
+                <span>Subtotal</span>
+                <span className="font-mono">₹{group.subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between text-muted-foreground">
+                <span>GST (5%)</span>
+                <span className="font-mono">₹{group.tax.toFixed(2)}</span>
+              </div>
+              <div className="mt-1 flex justify-between border-t border-border pt-1.5 text-sm font-extrabold text-foreground">
+                <span>{group.shopName} total</span>
+                <span className="font-mono">₹{group.total.toFixed(2)}</span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => onChangeQty(line.productId, -1)}
-                className="grid size-7 place-items-center rounded-full bg-muted text-foreground"
-              >
-                <Minus className="size-3.5" />
-              </button>
-              <span className="w-4 text-center text-xs font-bold">{line.quantity}</span>
-              <button
-                onClick={() => onChangeQty(line.productId, 1)}
-                className="grid size-7 place-items-center rounded-full bg-accent text-primary"
-              >
-                <Plus className="size-3.5" />
-              </button>
-            </div>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
 
-      <div className="mt-4 flex flex-col gap-1 rounded-2xl border border-border bg-card p-3.5 text-sm">
-        <div className="flex justify-between text-muted-foreground">
-          <span>Subtotal</span>
-          <span className="font-mono">₹{subtotal.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between text-muted-foreground">
-          <span>GST (5%)</span>
-          <span className="font-mono">₹{tax.toFixed(2)}</span>
-        </div>
-        <div className="mt-1 flex justify-between border-t border-border pt-1.5 text-base font-extrabold text-foreground">
-          <span>Total</span>
-          <span className="font-mono">₹{total.toFixed(2)}</span>
-        </div>
+      <div className="mt-4 flex justify-between rounded-2xl bg-accent p-3.5 text-base font-extrabold text-primary">
+        <span>Grand total</span>
+        <span className="font-mono">₹{grandTotal.toFixed(2)}</span>
       </div>
 
       {isAuthenticated && (
@@ -158,7 +208,7 @@ export function CartScreen({
         {isPending
           ? "Placing order…"
           : isAuthenticated
-            ? `Checkout · ₹${total.toFixed(2)}`
+            ? `Checkout · ${groups.length > 1 ? `${groups.length} orders · ` : ""}₹${grandTotal.toFixed(2)}`
             : "Sign in to checkout"}
       </button>
     </div>

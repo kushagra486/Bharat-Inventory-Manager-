@@ -1,12 +1,13 @@
 "use client";
 
 import { CircleUserRound } from "lucide-react";
-import type { CustomerProfileVM, OrderVM } from "@/app/shop/[ownerId]/_components/types";
+import type { CustomerProfileVM, OrderVM } from "@/app/shop/_components/types";
 
 export function ProfileScreen({
   isAuthenticated,
   email,
   customerProfile,
+  totalLoyaltyPoints,
   orders,
   onSignOut,
   onRequireAuth,
@@ -14,6 +15,7 @@ export function ProfileScreen({
   isAuthenticated: boolean;
   email: string | null;
   customerProfile: CustomerProfileVM | null;
+  totalLoyaltyPoints: number;
   orders: OrderVM[] | null;
   onSignOut: () => void;
   onRequireAuth: () => void;
@@ -48,7 +50,7 @@ export function ProfileScreen({
 
       <div className="rounded-[23px] bg-gradient-to-br from-[#273eaf] to-[#6b45d9] p-5 text-white">
         <div className="text-[10px] font-extrabold tracking-wide uppercase opacity-80">
-          {customerProfile ? `${customerProfile.loyaltyPoints} loyalty points` : "New member"}
+          {customerProfile ? `${totalLoyaltyPoints} loyalty points across shops` : "New member"}
         </div>
         <div className="my-1.5 text-xl font-extrabold">{customerProfile?.name ?? "Welcome"}</div>
         <div className="text-xs opacity-85">{email}</div>
@@ -58,7 +60,7 @@ export function ProfileScreen({
             <span className="text-[10px] opacity-80">Orders</span>
           </div>
           <div>
-            <b className="block text-[15px]">{customerProfile?.loyaltyPoints ?? 0}</b>
+            <b className="block text-[15px]">{totalLoyaltyPoints}</b>
             <span className="text-[10px] opacity-80">Reward points</span>
           </div>
           <div>

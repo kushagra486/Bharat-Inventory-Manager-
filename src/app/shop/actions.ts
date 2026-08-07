@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import type { CartLine } from "@/app/shop/[ownerId]/_components/types";
+import type { CartLine } from "@/app/shop/_components/types";
 
 export type PlaceOrderResult = {
   orderId: string;
@@ -38,6 +38,7 @@ export async function placeOrder(
   const result = data as { order_id: string; order_number: string; total: number };
 
   revalidatePath(`/shop/${ownerId}`);
+  revalidatePath("/shop");
 
   return { orderId: result.order_id, orderNumber: result.order_number, total: result.total };
 }
