@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { useActionState } from "react";
-import { signUp, type AuthState } from "@/app/auth-actions";
+import { staffSignUp, type AuthState } from "@/app/auth-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,8 +17,8 @@ import {
 
 const initialState: AuthState = {};
 
-export default function SignupPage() {
-  const [state, formAction, isPending] = useActionState(signUp, initialState);
+export default function StaffSignupPage() {
+  const [state, formAction, isPending] = useActionState(staffSignUp, initialState);
 
   return (
     <div
@@ -33,9 +33,10 @@ export default function SignupPage() {
           <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Sparkles className="size-4" />
           </div>
-          <CardTitle className="text-xl">Create your account</CardTitle>
+          <CardTitle className="text-xl">Join as staff</CardTitle>
           <CardDescription>
-            Start managing your shop&apos;s inventory with BIM AI
+            Create your account with the invite code your shop owner gave you — you&apos;ll get
+            POS access to ring up sales and view orders.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -59,26 +60,20 @@ export default function SignupPage() {
                 autoComplete="new-password"
               />
             </div>
-            {state.error && (
-              <p className="text-sm text-destructive">{state.error}</p>
-            )}
-            {state.message && (
-              <p className="text-sm text-muted-foreground">{state.message}</p>
-            )}
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="inviteCode">Invite code</Label>
+              <Input id="inviteCode" name="inviteCode" required className="font-mono" />
+            </div>
+            {state.error && <p className="text-sm text-destructive">{state.error}</p>}
+            {state.message && <p className="text-sm text-muted-foreground">{state.message}</p>}
             <Button type="submit" disabled={isPending} className="w-full">
-              {isPending ? "Creating account..." : "Sign up"}
+              {isPending ? "Joining..." : "Join shop"}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <Link href="/login" className="underline underline-offset-4">
-              Sign in
-            </Link>
-          </p>
-          <p className="mt-1 text-center text-sm text-muted-foreground">
-            Joining as staff?{" "}
-            <Link href="/staff-signup" className="underline underline-offset-4">
-              Use your invite code
+            Shop owner instead?{" "}
+            <Link href="/signup" className="underline underline-offset-4">
+              Create an owner account
             </Link>
           </p>
         </CardContent>

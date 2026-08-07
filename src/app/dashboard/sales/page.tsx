@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getShopContext } from "@/lib/shop-context";
 import { PosView } from "@/app/dashboard/sales/pos-view";
 
 export default async function SalesPage() {
@@ -6,16 +7,17 @@ export default async function SalesPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const { shopId } = await getShopContext(supabase, user!);
 
   const [productsRes, customersRes] = await Promise.all([
     supabase
       .from("products")
       .select("id, name, price, quantity, unit, categories(name)")
-      .eq("user_id", user!.id)
+      .eq("user_id", shopId)
       .eq("is_archived", false)
       .gt("quantity", 0)
       .order("name"),
-    supabase.from("customers").select("id, name").eq("user_id", user!.id).order("name"),
+    supabase.from("customers").select("id, name").eq("user_id", shopId).order("name"),
   ]);
 
   return (

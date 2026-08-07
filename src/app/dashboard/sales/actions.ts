@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { getShopContext } from "@/lib/shop-context";
 
 const GST_RATE = 0.05;
 
@@ -29,12 +30,13 @@ export async function checkout(
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Not authenticated");
+  const { shopId } = await getShopContext(supabase, user);
 
   const productIds = lines.map((l) => l.productId);
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select("id, name, quantity")
-    .eq("user_id", user.id)
+    .eq("user_id", shopId)
     .in("id", productIds);
   if (productsError) throw new Error(productsError.message);
 
@@ -55,7 +57,7 @@ export async function checkout(
   const { data: order, error: orderError } = await supabase
     .from("sales_orders")
     .insert({
-      user_id: user.id,
+      user_id: shopId,
       customer_id: customerId,
       order_number: orderNumber,
       status: "completed",
@@ -86,7 +88,7 @@ export async function checkout(
       .from("products")
       .update({ quantity: product.quantity - line.quantity })
       .eq("id", line.productId)
-      .eq("user_id", user.id);
+      .eq("user_id", shopId);
     if (stockError) throw new Error(stockError.message);
   }
 

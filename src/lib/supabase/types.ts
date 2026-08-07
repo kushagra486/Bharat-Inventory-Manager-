@@ -375,11 +375,47 @@ export type Database = {
         }
         Relationships: []
       }
+      shop_staff: {
+        Row: {
+          auth_user_id: string | null
+          created_at: string
+          full_name: string
+          id: string
+          invite_code: string
+          owner_id: string
+        }
+        Insert: {
+          auth_user_id?: string | null
+          created_at?: string
+          full_name: string
+          id?: string
+          invite_code?: string
+          owner_id: string
+        }
+        Update: {
+          auth_user_id?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          invite_code?: string
+          owner_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      claim_staff_invite: {
+        Args: {
+          p_invite_code: string
+        }
+        Returns: {
+          owner_id: string
+          business_name: string
+        }[]
+      }
       place_customer_order: {
         Args: {
           p_customer_name: string

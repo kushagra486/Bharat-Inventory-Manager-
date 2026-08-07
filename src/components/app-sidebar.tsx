@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { signOut } from "@/app/auth-actions";
 
-const navGroups = [
+const ownerNavGroups = [
   {
     label: "Overview",
     items: [{ title: "Dashboard", url: "/dashboard", icon: LayoutDashboard }],
@@ -64,14 +64,27 @@ const navGroups = [
   },
 ];
 
+const staffNavGroups = [
+  {
+    label: "Operations",
+    items: [
+      { title: "Sales", url: "/dashboard/sales", icon: ShoppingCart },
+      { title: "Orders", url: "/dashboard/orders", icon: ClipboardList },
+    ],
+  },
+];
+
 export function AppSidebar({
   email,
   pendingOrdersCount = 0,
+  role = "owner",
 }: {
   email?: string | null;
   pendingOrdersCount?: number;
+  role?: "owner" | "staff";
 }) {
   const pathname = usePathname();
+  const navGroups = role === "staff" ? staffNavGroups : ownerNavGroups;
 
   return (
     <Sidebar collapsible="icon">
@@ -82,7 +95,9 @@ export function AppSidebar({
           </div>
           <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
             <span className="truncate text-sm font-medium">BIM AI</span>
-            <span className="truncate text-xs text-muted-foreground">Owner Dashboard</span>
+            <span className="truncate text-xs text-muted-foreground">
+              {role === "staff" ? "Staff POS" : "Owner Dashboard"}
+            </span>
           </div>
         </div>
       </SidebarHeader>
