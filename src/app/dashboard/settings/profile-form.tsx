@@ -42,6 +42,8 @@ export function ProfileForm({ profile }: { profile: Profile }) {
     profile?.delivery_estimate,
     profile?.service_area,
     profile?.upi_id,
+    profile?.gstin,
+    profile?.business_address,
   ].join("|");
 
   return (
@@ -89,6 +91,25 @@ export function ProfileForm({ profile }: { profile: Profile }) {
           name="upi_id"
           placeholder="e.g. shopname@okhdfcbank"
           defaultValue={profile?.upi_id ?? ""}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="gstin">GSTIN (for tax invoices)</Label>
+        <Input
+          id="gstin"
+          name="gstin"
+          placeholder="e.g. 22AAAAA0000A1Z5"
+          className="uppercase"
+          defaultValue={profile?.gstin ?? ""}
+        />
+      </div>
+      <div className="sm:col-span-2 flex flex-col gap-2">
+        <Label htmlFor="business_address">Business address (shown on invoices)</Label>
+        <Input
+          id="business_address"
+          name="business_address"
+          placeholder="e.g. 12 MG Road, Bengaluru, Karnataka 560001"
+          defaultValue={profile?.business_address ?? ""}
         />
       </div>
       <div className="sm:col-span-2">

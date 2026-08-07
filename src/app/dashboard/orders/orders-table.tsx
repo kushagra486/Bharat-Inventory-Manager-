@@ -2,7 +2,9 @@
 
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -66,12 +68,13 @@ export function OrdersTable({
             <TableHead>Total</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Date</TableHead>
+            <TableHead>Invoice</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {orders.length === 0 && (
             <TableRow>
-              <TableCell colSpan={8} className="text-center text-muted-foreground">
+              <TableCell colSpan={9} className="text-center text-muted-foreground">
                 No orders yet. Ring up a sale in Sales · POS, or share your storefront link.
               </TableCell>
             </TableRow>
@@ -126,6 +129,17 @@ export function OrdersTable({
               </TableCell>
               <TableCell className="text-muted-foreground">
                 {new Date(order.created_at).toLocaleDateString()}
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  render={
+                    <a href={`/api/invoices/${order.id}`} target="_blank" rel="noopener noreferrer" />
+                  }
+                >
+                  <FileText />
+                </Button>
               </TableCell>
             </TableRow>
             );

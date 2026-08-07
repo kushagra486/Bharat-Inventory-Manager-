@@ -22,6 +22,8 @@ export async function updateProfile(formData: FormData) {
     delivery_estimate: toNullable(formData.get("delivery_estimate")),
     service_area: toNullable(formData.get("service_area")),
     upi_id: toNullable(formData.get("upi_id")),
+    gstin: toNullable(formData.get("gstin"))?.toUpperCase() ?? null,
+    business_address: toNullable(formData.get("business_address")),
   };
 
   const { error } = await supabase.from("user_profiles").upsert({ id: user.id, ...values });

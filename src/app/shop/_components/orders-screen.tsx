@@ -1,6 +1,6 @@
 "use client";
 
-import { Package } from "lucide-react";
+import { FileText, Package } from "lucide-react";
 import type { OrderVM } from "@/app/shop/_components/types";
 
 const STATUS_STYLES: Record<string, string> = {
@@ -80,6 +80,15 @@ export function OrdersScreen({
                 <span>Total</span>
                 <span className="font-mono">₹{order.total.toFixed(2)}</span>
               </div>
+              <a
+                href={`/api/invoices/${order.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2.5 flex items-center justify-center gap-1.5 rounded-[10px] bg-muted py-2 text-[11px] font-extrabold text-foreground"
+              >
+                <FileText className="size-3.5" />
+                Download invoice
+              </a>
             </li>
           ))}
         </ul>

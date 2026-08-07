@@ -380,6 +380,8 @@ export type Database = {
           phone: string | null
           service_area: string | null
           upi_id: string | null
+          gstin: string | null
+          business_address: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -391,6 +393,8 @@ export type Database = {
           phone?: string | null
           service_area?: string | null
           upi_id?: string | null
+          gstin?: string | null
+          business_address?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -402,6 +406,8 @@ export type Database = {
           phone?: string | null
           service_area?: string | null
           upi_id?: string | null
+          gstin?: string | null
+          business_address?: string | null
         }
         Relationships: []
       }
