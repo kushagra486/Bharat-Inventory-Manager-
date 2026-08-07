@@ -7,6 +7,7 @@ import type { Session } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase/client";
 import { placeOrder } from "@/app/shop/actions";
 import { AuthOverlay } from "@/app/shop/_components/auth-overlay";
+import { UpiPaymentOverlay, type PendingPayment } from "@/app/shop/_components/upi-payment-overlay";
 import { BottomNav } from "@/app/shop/_components/bottom-nav";
 import { MarketplaceScreen } from "@/app/shop/_components/marketplace-screen";
 import { HomeScreen } from "@/app/shop/_components/home-screen";
@@ -54,6 +55,7 @@ export function MarketplaceApp({
   const [cart, setCart] = useState<CartLine[]>([]);
   const [customerRows, setCustomerRows] = useState<CustomerRow[]>([]);
   const [orders, setOrders] = useState<OrderVM[] | null>(null);
+  const [pendingPayments, setPendingPayments] = useState<PendingPayment[] | null>(null);
 
   const currentShop = shopId ? (shops.find((s) => s.id === shopId) ?? null) : null;
   const shopProducts = shopId ? products.filter((p) => p.ownerId === shopId) : [];
@@ -250,14 +252,24 @@ export function MarketplaceApp({
     );
 
     const succeededOwnerIds = new Set<string>();
+    const upiPayments: PendingPayment[] = [];
     let anySucceeded = false;
     results.forEach((result, i) => {
       const [ownerId] = groupEntries[i];
-      const shopName = shopsById.get(ownerId)?.name ?? "the shop";
+      const shop = shopsById.get(ownerId);
+      const shopName = shop?.name ?? "the shop";
       if (result.status === "fulfilled") {
         anySucceeded = true;
         succeededOwnerIds.add(ownerId);
         toast.success(`${shopName}: order ${result.value.orderNumber} placed — ₹${result.value.total.toFixed(2)}`);
+        if (paymentMethod === "upi" && shop?.upiId) {
+          upiPayments.push({
+            orderNumber: result.value.orderNumber,
+            shopName,
+            upiId: shop.upiId,
+            amount: result.value.total,
+          });
+        }
       } else {
         toast.error(`${shopName}: ${result.reason instanceof Error ? result.reason.message : "Checkout failed"}`);
       }
@@ -267,7 +279,11 @@ export function MarketplaceApp({
       setCart((prev) => prev.filter((l) => !succeededOwnerIds.has(l.ownerId)));
     }
     if (anySucceeded) {
-      setScreen("orders");
+      if (upiPayments.length > 0) {
+        setPendingPayments(upiPayments);
+      } else {
+        setScreen("orders");
+      }
       await refreshOrders();
     }
   }
@@ -296,6 +312,15 @@ export function MarketplaceApp({
     <div className="relative mx-auto min-h-screen w-full max-w-[430px] overflow-hidden bg-card pb-24">
       {authChecked && !session && showAuthOverlay && (
         <AuthOverlay shopName={appName} onAuthed={() => setShowAuthOverlay(false)} />
+      )}
+      {pendingPayments && (
+        <UpiPaymentOverlay
+          payments={pendingPayments}
+          onClose={() => {
+            setPendingPayments(null);
+            setScreen("orders");
+          }}
+        />
       )}
 
       {screen === "home" &&

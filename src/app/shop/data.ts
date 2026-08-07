@@ -7,7 +7,7 @@ export async function getMarketplaceData() {
   const [profilesRes, productsRes] = await Promise.all([
     supabase
       .from("user_profiles")
-      .select("id, business_name, full_name, delivery_estimate, service_area"),
+      .select("id, business_name, full_name, delivery_estimate, service_area, upi_id"),
     supabase
       .from("products")
       .select("id, name, price, quantity, unit, image_url, category_id, user_id, categories(name, icon)")
@@ -24,6 +24,7 @@ export async function getMarketplaceData() {
         name: p.business_name || p.full_name || "Local shop",
         deliveryEstimate: p.delivery_estimate,
         serviceArea: p.service_area,
+        upiId: p.upi_id,
       },
     ]),
   );
@@ -64,6 +65,7 @@ export async function getMarketplaceData() {
         name: profile.name,
         deliveryEstimate: profile.deliveryEstimate,
         serviceArea: profile.serviceArea,
+        upiId: profile.upiId,
         productCount: stats.productCount,
         categoryIcons: [...stats.categoryIcons].slice(0, 4),
       };

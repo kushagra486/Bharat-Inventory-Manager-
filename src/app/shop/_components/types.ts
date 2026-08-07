@@ -3,6 +3,7 @@ export type ShopVM = {
   name: string;
   deliveryEstimate: string | null;
   serviceArea: string | null;
+  upiId: string | null;
   productCount: number;
   categoryIcons: string[];
 };

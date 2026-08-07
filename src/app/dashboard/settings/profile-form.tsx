@@ -41,6 +41,7 @@ export function ProfileForm({ profile }: { profile: Profile }) {
     profile?.phone,
     profile?.delivery_estimate,
     profile?.service_area,
+    profile?.upi_id,
   ].join("|");
 
   return (
@@ -79,6 +80,15 @@ export function ProfileForm({ profile }: { profile: Profile }) {
           name="service_area"
           placeholder="e.g. Sector 12, Sector 14"
           defaultValue={profile?.service_area ?? ""}
+        />
+      </div>
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="upi_id">UPI ID (for customer payments)</Label>
+        <Input
+          id="upi_id"
+          name="upi_id"
+          placeholder="e.g. shopname@okhdfcbank"
+          defaultValue={profile?.upi_id ?? ""}
         />
       </div>
       <div className="sm:col-span-2">
