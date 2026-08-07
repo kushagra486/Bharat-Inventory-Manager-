@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { useActionState } from "react";
-import { signIn, type AuthState } from "@/app/auth-actions";
+import { requestPasswordReset, type AuthState } from "@/app/auth-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,8 +17,8 @@ import {
 
 const initialState: AuthState = {};
 
-export default function LoginPage() {
-  const [state, formAction, isPending] = useActionState(signIn, initialState);
+export default function ForgotPasswordPage() {
+  const [state, formAction, isPending] = useActionState(requestPasswordReset, initialState);
 
   return (
     <div
@@ -33,9 +33,9 @@ export default function LoginPage() {
           <div className="mb-2 flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Sparkles className="size-4" />
           </div>
-          <CardTitle className="text-xl">Sign in to BIM AI</CardTitle>
+          <CardTitle className="text-xl">Reset your password</CardTitle>
           <CardDescription>
-            Bharat Inventory Manager AI — Owner Dashboard
+            Enter your account email and we&apos;ll send a reset link.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -44,35 +44,15 @@ export default function LoginPage() {
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" required autoComplete="email" />
             </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/forgot-password"
-                  className="text-xs text-muted-foreground underline underline-offset-4"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                autoComplete="current-password"
-              />
-            </div>
-            {state.error && (
-              <p className="text-sm text-destructive">{state.error}</p>
-            )}
+            {state.error && <p className="text-sm text-destructive">{state.error}</p>}
+            {state.message && <p className="text-sm text-muted-foreground">{state.message}</p>}
             <Button type="submit" disabled={isPending} className="w-full">
-              {isPending ? "Signing in..." : "Sign in"}
+              {isPending ? "Sending..." : "Send reset link"}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            No account?{" "}
-            <Link href="/signup" className="underline underline-offset-4">
-              Sign up
+            <Link href="/login" className="underline underline-offset-4">
+              Back to sign in
             </Link>
           </p>
         </CardContent>
