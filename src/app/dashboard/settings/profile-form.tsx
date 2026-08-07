@@ -24,8 +24,12 @@ export function ProfileForm({ profile }: { profile: Profile }) {
     });
   }
 
+  // Keying on the loaded values forces a remount (instead of an in-place
+  // defaultValue update) whenever fresh data arrives after a save.
+  const formKey = `${profile?.full_name ?? ""}|${profile?.business_name ?? ""}|${profile?.phone ?? ""}`;
+
   return (
-    <form action={handleSubmit} className="grid gap-4 sm:grid-cols-2">
+    <form key={formKey} action={handleSubmit} className="grid gap-4 sm:grid-cols-2">
       <div className="flex flex-col gap-2">
         <Label htmlFor="full_name">Your name</Label>
         <Input id="full_name" name="full_name" defaultValue={profile?.full_name ?? ""} />
