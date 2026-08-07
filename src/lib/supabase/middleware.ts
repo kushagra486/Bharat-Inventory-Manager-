@@ -1,7 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/signup", "/auth", "/shop", "/forgot-password", "/staff-signup"];
+const PUBLIC_PATHS = [
+  "/login",
+  "/signup",
+  "/auth",
+  "/shop",
+  "/forgot-password",
+  "/staff-signup",
+  "/api/cron",
+];
 
 export async function updateSession(request: NextRequest) {
   // Forwarded so server layouts (which can't call usePathname()) can gate

@@ -27,6 +27,7 @@ import {
   deleteNotificationSetting,
   toggleNotificationSetting,
 } from "@/app/dashboard/settings/actions";
+import { PushSubscribe } from "@/app/dashboard/settings/push-subscribe";
 import type { Tables } from "@/lib/supabase/types";
 
 type NotificationSetting = Tables<"notification_settings">;
@@ -70,6 +71,7 @@ export function NotificationSettings({ settings }: { settings: NotificationSetti
 
   return (
     <div className="flex flex-col gap-3">
+      <PushSubscribe />
       {settings.length === 0 ? (
         <p className="text-sm text-muted-foreground">No reminders configured yet.</p>
       ) : (

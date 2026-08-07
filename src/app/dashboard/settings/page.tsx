@@ -86,8 +86,9 @@ export default async function SettingsPage() {
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           <p className="text-xs text-muted-foreground">
-            These reminders are stored and toggled here, but nothing actually sends push/email
-            notifications yet — that delivery service isn&apos;t built.
+            Enable browser notifications below, then add reminders for how many days before
+            expiry you want to be alerted. A scheduled check sends a real push notification to
+            this device for every low-stock or expiring product that matches an enabled reminder.
           </p>
           <NotificationSettings settings={notificationsRes.data ?? []} />
         </CardContent>
