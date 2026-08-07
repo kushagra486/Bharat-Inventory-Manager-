@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
-import { MoreHorizontal, Plus } from "lucide-react";
+import { MoreHorizontal, Plus, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,6 +54,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { createProduct, deleteProduct, updateProduct } from "@/app/dashboard/products/actions";
+import { computeAiInsight } from "@/lib/mock-data";
 import type { Tables } from "@/lib/supabase/types";
 
 type Category = Pick<Tables<"categories">, "id" | "name" | "color" | "icon">;
@@ -71,6 +78,7 @@ export function ProductsTable({
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState<Product | null>(null);
+  const [viewing, setViewing] = useState<Product | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const sorted = useMemo(
@@ -269,7 +277,11 @@ export function ProductsTable({
               </TableRow>
             )}
             {sorted.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow
+                key={product.id}
+                className="cursor-pointer"
+                onClick={() => setViewing(product)}
+              >
                 <TableCell className="font-medium">{product.name}</TableCell>
                 <TableCell>
                   {product.categories ? (
@@ -286,7 +298,7 @@ export function ProductsTable({
                 </TableCell>
                 <TableCell>{product.expiry_date}</TableCell>
                 <TableCell>{product.price != null ? `₹${product.price}` : "—"}</TableCell>
-                <TableCell>
+                <TableCell onClick={(e) => e.stopPropagation()}>
                   <DropdownMenu>
                     <DropdownMenuTrigger
                       render={
@@ -296,6 +308,9 @@ export function ProductsTable({
                       }
                     />
                     <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setViewing(product)}>
+                        View AI insight
+                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => openEdit(product)}>Edit</DropdownMenuItem>
                       <DropdownMenuItem
                         variant="destructive"
@@ -328,6 +343,75 @@ export function ProductsTable({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Sheet open={!!viewing} onOpenChange={(next) => !next && setViewing(null)}>
+        <SheetContent>
+          {viewing && (
+            <ProductDetail
+              product={viewing}
+              onEdit={() => {
+                setViewing(null);
+                openEdit(viewing);
+              }}
+            />
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
+  );
+}
+
+function ProductDetail({ product, onEdit }: { product: Product; onEdit: () => void }) {
+  const { score, note } = computeAiInsight(product);
+  return (
+    <>
+      <SheetHeader>
+        <SheetTitle>{product.name}</SheetTitle>
+      </SheetHeader>
+      <div className="flex flex-col gap-4 px-4 pb-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-lg border border-border p-3">
+            <div className="text-[11px] text-muted-foreground">Stock</div>
+            <div className="text-lg font-semibold">
+              {product.quantity} {product.unit}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border p-3">
+            <div className="text-[11px] text-muted-foreground">AI Score</div>
+            <div className="text-lg font-semibold text-primary">{score}/100</div>
+          </div>
+          <div className="rounded-lg border border-border p-3">
+            <div className="text-[11px] text-muted-foreground">Selling Price</div>
+            <div className="text-lg font-semibold">
+              {product.price != null ? `₹${product.price}` : "—"}
+            </div>
+          </div>
+          <div className="rounded-lg border border-border p-3">
+            <div className="text-[11px] text-muted-foreground">Expiry</div>
+            <div className="text-lg font-semibold">{product.expiry_date}</div>
+          </div>
+        </div>
+
+        <div className="rounded-lg border border-border p-3">
+          <div className="text-[10px] font-medium tracking-wider text-primary uppercase">
+            Supplier
+          </div>
+          <div className="text-sm font-medium">{product.suppliers?.name ?? "Unassigned"}</div>
+          {product.location && (
+            <div className="text-xs text-muted-foreground">Location: {product.location}</div>
+          )}
+        </div>
+
+        <div className="rounded-lg border border-primary/40 p-3">
+          <div className="flex items-center gap-1.5 text-[10px] font-medium tracking-wider text-primary uppercase">
+            <Sparkles className="size-3" />
+            AI Recommendation
+          </div>
+          <p className="text-sm text-muted-foreground">{note}</p>
+        </div>
+
+        <Button onClick={onEdit}>Quick Edit</Button>
+      </div>
+    </>
   );
 }

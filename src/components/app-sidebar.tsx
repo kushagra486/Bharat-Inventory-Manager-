@@ -6,8 +6,14 @@ import {
   Boxes,
   LayoutDashboard,
   LogOut,
+  Receipt,
+  Settings,
+  ShoppingCart,
+  Sparkles,
   Tags,
+  TrendingUp,
   Truck,
+  Users,
 } from "lucide-react";
 import {
   Sidebar,
@@ -24,8 +30,16 @@ import {
 import { signOut } from "@/app/auth-actions";
 
 const navItems = [
-  { title: "Overview", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Products", url: "/dashboard/products", icon: Boxes },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Inventory", url: "/dashboard/products", icon: Boxes },
+  { title: "Sales", url: "/dashboard/sales", icon: ShoppingCart },
+  { title: "Customers", url: "/dashboard/customers", icon: Users },
+  { title: "Orders", url: "/dashboard/orders", icon: Receipt },
+  { title: "AI Insights", url: "/dashboard/ai", icon: Sparkles },
+  { title: "Reports", url: "/dashboard/reports", icon: TrendingUp },
+];
+
+const catalogItems = [
   { title: "Categories", url: "/dashboard/categories", icon: Tags },
   { title: "Suppliers", url: "/dashboard/suppliers", icon: Truck },
 ];
@@ -34,21 +48,21 @@ export function AppSidebar({ email }: { email?: string | null }) {
   const pathname = usePathname();
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="hidden md:flex">
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-1.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground font-semibold">
-            B
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <Sparkles className="size-4" />
           </div>
           <div className="flex flex-col overflow-hidden group-data-[collapsible=icon]:hidden">
-            <span className="truncate text-sm font-semibold">Bharat Inventory AI</span>
-            <span className="truncate text-xs text-muted-foreground">Owner Dashboard</span>
+            <span className="truncate text-sm font-semibold">BIM AI</span>
+            <span className="truncate text-xs text-muted-foreground">Store owner</span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Inventory</SidebarGroupLabel>
+          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => (
@@ -68,12 +82,48 @@ export function AppSidebar({ email }: { email?: string | null }) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Catalog</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {catalogItems.map((item) => (
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton
+                    isActive={pathname === item.url}
+                    tooltip={item.title}
+                    render={
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    }
+                  />
+                </SidebarMenuItem>
+              ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  isActive={pathname === "/dashboard/settings"}
+                  tooltip="Settings"
+                  render={
+                    <Link href="/dashboard/settings">
+                      <Settings />
+                      <span>Settings</span>
+                    </Link>
+                  }
+                />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <div className="truncate px-2 py-1 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-              {email}
+            <div className="flex items-center gap-2 px-2 py-1 group-data-[collapsible=icon]:hidden">
+              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[var(--bim-accent-800)] text-xs font-semibold text-[var(--bim-accent-100)]">
+                {(email ?? "?").slice(0, 2).toUpperCase()}
+              </div>
+              <div className="truncate text-xs text-muted-foreground">{email}</div>
             </div>
           </SidebarMenuItem>
           <SidebarMenuItem>
