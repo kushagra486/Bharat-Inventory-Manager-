@@ -113,7 +113,7 @@ Row-Level Security — not a mockup.
 | Database & Auth | [Supabase](https://supabase.com) — Postgres, Row-Level Security, Auth |
 | AI | [Groq](https://groq.com) (Llama 3.3 70B) — real-time inference, free tier |
 | Hosting | [Vercel](https://vercel.com) — auto-deploy on every push to `main` |
-| CI/CD | GitHub Actions — lint, build, and deploy |
+| CI | GitHub Actions — lint + build on every push |
 | Icons | [Lucide](https://lucide.dev) |
 
 ## 🔄 How it works
@@ -177,10 +177,8 @@ your own deployment, and never commit a real `GROQ_API_KEY`.
 2. Add the environment variables above under Project Settings
 3. Deploy — every push to `main` redeploys automatically
 
-**GitHub Actions** (`.github/workflows/`):
-
-- `ci.yml` — lint + build on every push and pull request
-- `deploy.yml` — deploys to Vercel via the Vercel CLI on every push to `main`, using the same build Vercel's own Git integration would produce (belt-and-suspenders / gives you deploy logs in Actions). Needs three repository secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
+**GitHub Actions** (`.github/workflows/ci.yml`) runs lint + build on every
+push and pull request against `main`.
 
 ## 🗂️ Project structure
 
