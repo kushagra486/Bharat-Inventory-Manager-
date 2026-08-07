@@ -168,6 +168,11 @@ export function CustomersTable({
                         {customer.name.slice(0, 2).toUpperCase()}
                       </span>
                       {customer.name}
+                      {customer.auth_user_id && (
+                        <Badge variant="outline" className="text-[10px] font-normal">
+                          Storefront
+                        </Badge>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell>{customer.phone ?? "—"}</TableCell>

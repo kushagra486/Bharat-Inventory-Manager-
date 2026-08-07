@@ -7,7 +7,7 @@ export default async function OrdersPage() {
   const [ordersRes, itemsRes] = await Promise.all([
     supabase
       .from("sales_orders")
-      .select("*, customers(name)")
+      .select("*, customers(name, phone, auth_user_id)")
       .order("created_at", { ascending: false }),
     supabase.from("sales_order_items").select("order_id"),
   ]);
@@ -22,7 +22,7 @@ export default async function OrdersPage() {
       <div>
         <h1 className="text-2xl font-medium tracking-tight">Orders</h1>
         <p className="text-sm text-muted-foreground">
-          Every sale rung up through the POS.
+          Every sale — rung up in-store on the POS or placed by customers on your storefront.
         </p>
       </div>
       <OrdersTable orders={ordersRes.data ?? []} itemCounts={Object.fromEntries(itemCounts)} />

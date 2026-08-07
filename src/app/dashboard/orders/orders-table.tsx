@@ -20,7 +20,9 @@ import {
 import { updateOrderStatus } from "@/app/dashboard/orders/actions";
 import type { Tables } from "@/lib/supabase/types";
 
-type Order = Tables<"sales_orders"> & { customers: { name: string } | null };
+type Order = Tables<"sales_orders"> & {
+  customers: { name: string; phone: string | null; auth_user_id: string | null } | null;
+};
 
 const STATUS_OPTIONS = ["completed", "pending", "cancelled", "refunded"];
 
@@ -57,6 +59,7 @@ export function OrdersTable({
         <TableHeader>
           <TableRow>
             <TableHead>Order</TableHead>
+            <TableHead>Channel</TableHead>
             <TableHead>Customer</TableHead>
             <TableHead>Items</TableHead>
             <TableHead>Payment</TableHead>
@@ -68,15 +71,29 @@ export function OrdersTable({
         <TableBody>
           {orders.length === 0 && (
             <TableRow>
-              <TableCell colSpan={7} className="text-center text-muted-foreground">
-                No orders yet. Ring up a sale in Sales · POS.
+              <TableCell colSpan={8} className="text-center text-muted-foreground">
+                No orders yet. Ring up a sale in Sales · POS, or share your storefront link.
               </TableCell>
             </TableRow>
           )}
-          {orders.map((order) => (
+          {orders.map((order) => {
+            const isOnline = Boolean(order.customers?.auth_user_id);
+            return (
             <TableRow key={order.id}>
               <TableCell className="font-medium">{order.order_number}</TableCell>
-              <TableCell>{order.customers?.name ?? "Walk-in"}</TableCell>
+              <TableCell>
+                <Badge variant={isOnline ? "default" : "outline"} className="whitespace-nowrap">
+                  {isOnline ? "Online" : "In-store"}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <div className="flex flex-col">
+                  <span>{order.customers?.name ?? "Walk-in"}</span>
+                  {isOnline && order.customers?.phone && (
+                    <span className="text-xs text-muted-foreground">{order.customers.phone}</span>
+                  )}
+                </div>
+              </TableCell>
               <TableCell>{itemCounts[order.id] ?? 0}</TableCell>
               <TableCell className="uppercase">{order.payment_method}</TableCell>
               <TableCell>₹{Number(order.total).toFixed(2)}</TableCell>
@@ -111,7 +128,8 @@ export function OrdersTable({
                 {new Date(order.created_at).toLocaleDateString()}
               </TableCell>
             </TableRow>
-          ))}
+            );
+          })}
         </TableBody>
       </Table>
     </div>

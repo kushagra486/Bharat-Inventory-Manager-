@@ -24,6 +24,7 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
@@ -63,7 +64,13 @@ const navGroups = [
   },
 ];
 
-export function AppSidebar({ email }: { email?: string | null }) {
+export function AppSidebar({
+  email,
+  pendingOrdersCount = 0,
+}: {
+  email?: string | null;
+  pendingOrdersCount?: number;
+}) {
   const pathname = usePathname();
 
   return (
@@ -97,6 +104,9 @@ export function AppSidebar({ email }: { email?: string | null }) {
                         </Link>
                       }
                     />
+                    {item.url === "/dashboard/orders" && pendingOrdersCount > 0 && (
+                      <SidebarMenuBadge>{pendingOrdersCount}</SidebarMenuBadge>
+                    )}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

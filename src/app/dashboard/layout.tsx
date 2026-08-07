@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { OrdersRealtime } from "@/components/orders-realtime";
 
 export default async function DashboardLayout({
   children,
@@ -23,9 +24,14 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
+  const { count: pendingOrdersCount } = await supabase
+    .from("sales_orders")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
+
   return (
     <SidebarProvider>
-      <AppSidebar email={user.email} />
+      <AppSidebar email={user.email} pendingOrdersCount={pendingOrdersCount ?? 0} />
       <SidebarInset>
         <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
           <SidebarTrigger />
@@ -50,6 +56,7 @@ export default async function DashboardLayout({
         <div className="flex flex-1 flex-col gap-4 p-4 md:p-6">{children}</div>
       </SidebarInset>
       <Toaster />
+      <OrdersRealtime ownerId={user.id} />
     </SidebarProvider>
   );
 }

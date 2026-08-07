@@ -126,6 +126,31 @@ export function StorefrontApp({
     }
   }, [screen, loadOrders]);
 
+  useEffect(() => {
+    if (!customerProfile) return;
+    const channel = supabase
+      .channel(`customer-orders-${customerProfile.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "sales_orders",
+          filter: `customer_id=eq.${customerProfile.id}`,
+        },
+        (payload) => {
+          const order = payload.new as { order_number: string; status: string };
+          toast.success(`Order ${order.order_number} is now ${order.status}`);
+          loadOrders();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [customerProfile, supabase, loadOrders]);
+
   function addToCart(product: ProductVM) {
     setCart((prev) => {
       const existing = prev.find((l) => l.productId === product.id);
