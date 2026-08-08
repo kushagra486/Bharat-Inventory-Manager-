@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import { Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,14 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { askAi, type ChatMessage } from "@/app/dashboard/ai/actions";
+
+// Whether the browser supports SpeechRecognition can only be known
+// client-side — loading this dynamically with ssr:false avoids a
+// hydration mismatch on that check.
+const VoiceInputButton = dynamic(
+  () => import("@/components/voice-input-button").then((m) => m.VoiceInputButton),
+  { ssr: false },
+);
 
 const SUGGESTIONS = [
   "What should I restock first?",
@@ -19,6 +28,7 @@ const SUGGESTIONS = [
 export function AiChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
+  const [isListening, setIsListening] = useState(false);
   const [isPending, startTransition] = useTransition();
   const listRef = useRef<HTMLDivElement>(null);
 
@@ -97,10 +107,18 @@ export function AiChat() {
           }}
         >
           <Input
-            placeholder="Ask BIM AI anything…"
+            placeholder={isListening ? "Listening…" : "Ask BIM AI anything…"}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={isPending}
+          />
+          <VoiceInputButton
+            disabled={isPending}
+            onListeningChange={setIsListening}
+            onTranscript={(transcript, isFinal) => {
+              setInput(transcript);
+              if (isFinal) send(transcript);
+            }}
           />
           <Button type="submit" size="icon" disabled={isPending || !input.trim()}>
             <Send />

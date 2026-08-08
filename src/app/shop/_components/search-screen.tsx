@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { Mic, MicOff } from "lucide-react";
 import { toast } from "sonner";
 import { askShoppingAi } from "@/app/shop/ai-actions";
+import { useVoiceInput } from "@/hooks/use-voice-input";
 import type { ProductVM } from "@/app/shop/_components/types";
 
 const PROMPTS = [
@@ -22,6 +24,11 @@ export function SearchScreen({
   const [query, setQuery] = useState("");
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<{ message: string; items: ProductVM[] } | null>(null);
+
+  const voice = useVoiceInput((transcript, isFinal) => {
+    setQuery(transcript);
+    if (isFinal) ask(transcript);
+  });
 
   function ask(text: string) {
     const q = text.trim();
@@ -56,9 +63,21 @@ export function SearchScreen({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && ask(query)}
-          placeholder="e.g. healthy breakfast under ₹500"
+          placeholder={voice.isListening ? "Listening…" : "e.g. healthy breakfast under ₹500"}
           className="flex-1 bg-transparent p-1.5 text-sm text-foreground outline-none"
         />
+        {voice.isSupported && (
+          <button
+            type="button"
+            onClick={() => (voice.isListening ? voice.stop() : voice.start())}
+            aria-label={voice.isListening ? "Stop voice input" : "Ask by voice"}
+            className={`grid size-9 shrink-0 place-items-center rounded-[11px] ${
+              voice.isListening ? "bg-primary text-primary-foreground" : "bg-card text-primary"
+            }`}
+          >
+            {voice.isListening ? <MicOff className="size-4" /> : <Mic className="size-4" />}
+          </button>
+        )}
         <button
           onClick={() => ask(query)}
           disabled={isPending}

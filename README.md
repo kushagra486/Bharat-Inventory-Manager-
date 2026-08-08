@@ -353,7 +353,7 @@ vision (see [VISION.md](./VISION.md) for the full list):
 - ✅ Camera barcode scanning for products, in both Products and POS
 - ✅ Maintained Playwright E2E suite (`tests/e2e/`, see [Testing](#-testing))
 - ✅ OCR product label scanning (open-source Tesseract.js, self-hosted — no cloud OCR API)
-- 🗣️ Voice assistant
+- ✅ Voice input for both AI chats (dashboard Ask BIM AI + storefront Bharat AI search), via the browser's built-in Web Speech API — no cloud speech service
 - 🚚 Live delivery tracking for storefront orders
 
 ## 🤝 Contributing

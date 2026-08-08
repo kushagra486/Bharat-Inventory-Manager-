@@ -27,8 +27,15 @@ import {
   deleteNotificationSetting,
   toggleNotificationSetting,
 } from "@/app/dashboard/settings/actions";
-import { PushSubscribe } from "@/app/dashboard/settings/push-subscribe";
+import dynamic from "next/dynamic";
 import type { Tables } from "@/lib/supabase/types";
+
+// isPushSupported() reads navigator/window, which don't exist during SSR —
+// rendering this client-only avoids a hydration mismatch on that check.
+const PushSubscribe = dynamic(
+  () => import("@/app/dashboard/settings/push-subscribe").then((m) => m.PushSubscribe),
+  { ssr: false },
+);
 
 type NotificationSetting = Tables<"notification_settings">;
 
