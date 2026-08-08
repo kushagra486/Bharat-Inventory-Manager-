@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored, pre-minified tesseract.js assets — not source we maintain.
+    "public/tesseract/**",
   ]),
 ]);
 

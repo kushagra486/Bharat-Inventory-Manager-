@@ -352,7 +352,7 @@ vision (see [VISION.md](./VISION.md) for the full list):
 - ✅ GST-compliant tax invoice / bill-of-supply PDFs, generated server-side
 - ✅ Camera barcode scanning for products, in both Products and POS
 - ✅ Maintained Playwright E2E suite (`tests/e2e/`, see [Testing](#-testing))
-- 🖼️ OCR label/invoice scanning
+- ✅ OCR product label scanning (open-source Tesseract.js, self-hosted — no cloud OCR API)
 - 🗣️ Voice assistant
 - 🚚 Live delivery tracking for storefront orders
 

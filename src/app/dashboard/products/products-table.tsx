@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useTransition } from "react";
-import { MoreHorizontal, Plus, ScanLine, Search } from "lucide-react";
+import { MoreHorizontal, Plus, ScanLine, ScanText, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +50,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { createProduct, deleteProduct, updateProduct } from "@/app/dashboard/products/actions";
 import { BarcodeScannerDialog } from "@/components/barcode-scanner-dialog";
+import { LabelScannerDialog } from "@/components/label-scanner-dialog";
+import type { ExtractedLabel } from "@/lib/ocr-extract";
 import type { Tables } from "@/lib/supabase/types";
 
 type Category = Pick<Tables<"categories">, "id" | "name" | "color" | "icon">;
@@ -79,6 +81,36 @@ export function ProductsTable({
   const [isPending, startTransition] = useTransition();
   const [scannerOpen, setScannerOpen] = useState(false);
   const barcodeInputRef = useRef<HTMLInputElement>(null);
+  const [labelScannerOpen, setLabelScannerOpen] = useState(false);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const priceInputRef = useRef<HTMLInputElement>(null);
+  const expiryInputRef = useRef<HTMLInputElement>(null);
+  const batchInputRef = useRef<HTMLInputElement>(null);
+
+  function handleLabelExtracted(fields: ExtractedLabel) {
+    const filled: string[] = [];
+    if (fields.name && nameInputRef.current) {
+      nameInputRef.current.value = fields.name;
+      filled.push("name");
+    }
+    if (fields.price && priceInputRef.current) {
+      priceInputRef.current.value = fields.price;
+      filled.push("price");
+    }
+    if (fields.expiryDate && expiryInputRef.current) {
+      expiryInputRef.current.value = fields.expiryDate;
+      filled.push("expiry date");
+    }
+    if (fields.batchNumber && batchInputRef.current) {
+      batchInputRef.current.value = fields.batchNumber;
+      filled.push("batch number");
+    }
+    if (filled.length > 0) {
+      toast.success(`Filled in ${filled.join(", ")} from the label — review before saving`);
+    } else {
+      toast.error("Couldn't make out any fields from that photo — try again or enter them manually");
+    }
+  }
 
   const sorted = useMemo(
     () => [...products].sort((a, b) => a.name.localeCompare(b.name)),
@@ -165,10 +197,22 @@ export function ProductsTable({
             <DialogHeader>
               <DialogTitle>{editing ? "Edit product" : "Add product"}</DialogTitle>
             </DialogHeader>
+            {!editing && (
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                className="w-fit"
+                onClick={() => setLabelScannerOpen(true)}
+              >
+                <ScanText />
+                Scan label to fill in
+              </Button>
+            )}
             <form action={handleSubmit} className="grid grid-cols-2 gap-4">
               <div className="col-span-2 flex flex-col gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" name="name" defaultValue={editing?.name} required />
+                <Input id="name" name="name" ref={nameInputRef} defaultValue={editing?.name} required />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="quantity">Quantity</Label>
@@ -190,6 +234,7 @@ export function ProductsTable({
                 <Input
                   id="price"
                   name="price"
+                  ref={priceInputRef}
                   type="number"
                   step="0.01"
                   min={0}
@@ -201,6 +246,7 @@ export function ProductsTable({
                 <Input
                   id="expiry_date"
                   name="expiry_date"
+                  ref={expiryInputRef}
                   type="date"
                   defaultValue={editing?.expiry_date}
                   required
@@ -217,7 +263,12 @@ export function ProductsTable({
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="batch_number">Batch number</Label>
-                <Input id="batch_number" name="batch_number" defaultValue={editing?.batch_number ?? undefined} />
+                <Input
+                  id="batch_number"
+                  name="batch_number"
+                  ref={batchInputRef}
+                  defaultValue={editing?.batch_number ?? undefined}
+                />
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="barcode">Barcode</Label>
@@ -447,6 +498,12 @@ export function ProductsTable({
         onDetected={(code) => {
           if (barcodeInputRef.current) barcodeInputRef.current.value = code;
         }}
+      />
+
+      <LabelScannerDialog
+        open={labelScannerOpen}
+        onOpenChange={setLabelScannerOpen}
+        onExtracted={handleLabelExtracted}
       />
     </div>
   );
