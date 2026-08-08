@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
-import { MoreHorizontal, Plus, Search } from "lucide-react";
+import { useMemo, useRef, useState, useTransition } from "react";
+import { MoreHorizontal, Plus, ScanLine, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { createProduct, deleteProduct, updateProduct } from "@/app/dashboard/products/actions";
+import { BarcodeScannerDialog } from "@/components/barcode-scanner-dialog";
 import type { Tables } from "@/lib/supabase/types";
 
 type Category = Pick<Tables<"categories">, "id" | "name" | "color" | "icon">;
@@ -76,6 +77,8 @@ export function ProductsTable({
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [isPending, startTransition] = useTransition();
+  const [scannerOpen, setScannerOpen] = useState(false);
+  const barcodeInputRef = useRef<HTMLInputElement>(null);
 
   const sorted = useMemo(
     () => [...products].sort((a, b) => a.name.localeCompare(b.name)),
@@ -218,7 +221,17 @@ export function ProductsTable({
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="barcode">Barcode</Label>
-                <Input id="barcode" name="barcode" defaultValue={editing?.barcode ?? undefined} />
+                <div className="flex gap-2">
+                  <Input
+                    id="barcode"
+                    name="barcode"
+                    ref={barcodeInputRef}
+                    defaultValue={editing?.barcode ?? undefined}
+                  />
+                  <Button type="button" variant="outline" size="icon" onClick={() => setScannerOpen(true)}>
+                    <ScanLine />
+                  </Button>
+                </div>
               </div>
               <div className="flex flex-col gap-2">
                 <Label htmlFor="category_id">Category</Label>
@@ -427,6 +440,14 @@ export function ProductsTable({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <BarcodeScannerDialog
+        open={scannerOpen}
+        onOpenChange={setScannerOpen}
+        onDetected={(code) => {
+          if (barcodeInputRef.current) barcodeInputRef.current.value = code;
+        }}
+      />
     </div>
   );
 }

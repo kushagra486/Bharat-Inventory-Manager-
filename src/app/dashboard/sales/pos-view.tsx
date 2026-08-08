@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { Minus, Plus, ScanLine, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { BarcodeScannerDialog } from "@/components/barcode-scanner-dialog";
 import { checkout, type CartLine } from "@/app/dashboard/sales/actions";
 
 type Product = {
@@ -22,6 +23,7 @@ type Product = {
   price: number | null;
   quantity: number;
   unit: string;
+  barcode: string | null;
   categories: { name: string } | null;
 };
 type Customer = { id: string; name: string };
@@ -35,6 +37,7 @@ export function PosView({ products, customers }: { products: Product[]; customer
   const [customerId, setCustomerId] = useState<string | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<(typeof PAYMENT_METHODS)[number]>("cash");
   const [isPending, startTransition] = useTransition();
+  const [scannerOpen, setScannerOpen] = useState(false);
 
   const subtotal = useMemo(
     () => cart.reduce((sum, l) => sum + l.price * l.quantity, 0),
@@ -65,6 +68,15 @@ export function PosView({ products, customers }: { products: Product[]; customer
     });
   }
 
+  function handleScan(code: string) {
+    const product = products.find((p) => p.barcode === code);
+    if (!product) {
+      toast.error(`No product matches barcode ${code}`);
+      return;
+    }
+    addToCart(product);
+  }
+
   function changeQty(productId: string, delta: number) {
     setCart((prev) =>
       prev
@@ -89,32 +101,38 @@ export function PosView({ products, customers }: { products: Product[]; customer
 
   return (
     <div className="grid gap-4 lg:grid-cols-[2fr_1fr] lg:items-start">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
-        {products.length === 0 && (
-          <p className="col-span-full text-sm text-muted-foreground">
-            No in-stock products available. Add stock in Products first.
-          </p>
-        )}
-        {products.map((product) => (
-          <Card
-            key={product.id}
-            className="cursor-pointer items-center gap-2 py-4 text-center transition-colors hover:bg-accent/50"
-            onClick={() => addToCart(product)}
-          >
-            <CardContent className="flex flex-col items-center gap-1">
-              <div className="flex size-12 items-center justify-center rounded-md bg-muted text-muted-foreground">
-                <ShoppingCart className="size-5" />
-              </div>
-              <p className="text-sm">{product.name}</p>
-              <p className="text-sm font-medium text-primary">
-                {product.price != null ? `₹${product.price}` : "—"}
-              </p>
-              <Badge variant="secondary" className="text-[10px]">
-                {product.quantity} {product.unit} left
-              </Badge>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="flex flex-col gap-3">
+        <Button variant="outline" size="sm" className="w-fit" onClick={() => setScannerOpen(true)}>
+          <ScanLine />
+          Scan barcode
+        </Button>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {products.length === 0 && (
+            <p className="col-span-full text-sm text-muted-foreground">
+              No in-stock products available. Add stock in Products first.
+            </p>
+          )}
+          {products.map((product) => (
+            <Card
+              key={product.id}
+              className="cursor-pointer items-center gap-2 py-4 text-center transition-colors hover:bg-accent/50"
+              onClick={() => addToCart(product)}
+            >
+              <CardContent className="flex flex-col items-center gap-1">
+                <div className="flex size-12 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                  <ShoppingCart className="size-5" />
+                </div>
+                <p className="text-sm">{product.name}</p>
+                <p className="text-sm font-medium text-primary">
+                  {product.price != null ? `₹${product.price}` : "—"}
+                </p>
+                <Badge variant="secondary" className="text-[10px]">
+                  {product.quantity} {product.unit} left
+                </Badge>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       <Card className="lg:sticky lg:top-4">
@@ -208,6 +226,8 @@ export function PosView({ products, customers }: { products: Product[]; customer
           </Button>
         </CardContent>
       </Card>
+
+      <BarcodeScannerDialog open={scannerOpen} onOpenChange={setScannerOpen} onDetected={handleScan} />
     </div>
   );
 }

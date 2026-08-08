@@ -12,7 +12,7 @@ export default async function SalesPage() {
   const [productsRes, customersRes] = await Promise.all([
     supabase
       .from("products")
-      .select("id, name, price, quantity, unit, categories(name)")
+      .select("id, name, price, quantity, unit, barcode, categories(name)")
       .eq("user_id", shopId)
       .eq("is_archived", false)
       .gt("quantity", 0)
