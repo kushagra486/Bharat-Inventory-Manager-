@@ -57,9 +57,12 @@ export async function getMarketplaceData() {
     shopStats.set(p.user_id, stats);
   }
 
-  const shops: ShopVM[] = [...profileByOwner.entries()]
-    .map(([ownerId, profile]) => {
-      const stats = shopStats.get(ownerId) ?? { productCount: 0, categoryIcons: new Set<string>() };
+  // Only owners with at least one sellable product are real, browsable shops —
+  // an owner who signed up but never listed anything shouldn't show up as an
+  // empty storefront in the marketplace.
+  const shops: ShopVM[] = [...shopStats.entries()]
+    .map(([ownerId, stats]) => {
+      const profile = profileByOwner.get(ownerId)!;
       return {
         id: ownerId,
         name: profile.name,
