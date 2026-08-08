@@ -19,7 +19,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateOrderStatus } from "@/app/dashboard/orders/actions";
+import { updateOrderStatus, updateDeliveryStatus } from "@/app/dashboard/orders/actions";
+import { DeliveryLocationButton } from "@/app/dashboard/orders/delivery-location-button";
 import type { Tables } from "@/lib/supabase/types";
 
 type Order = Tables<"sales_orders"> & {
@@ -33,6 +34,18 @@ const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "
   pending: "secondary",
   cancelled: "destructive",
   refunded: "outline",
+};
+
+const DELIVERY_OPTIONS = [
+  { value: "packed", label: "Packed" },
+  { value: "out_for_delivery", label: "Out for delivery" },
+  { value: "delivered", label: "Delivered" },
+];
+
+const DELIVERY_LABEL: Record<string, string> = {
+  packed: "Packed",
+  out_for_delivery: "Out for delivery",
+  delivered: "Delivered",
 };
 
 export function OrdersTable({
@@ -55,6 +68,17 @@ export function OrdersTable({
     });
   }
 
+  function handleDeliveryStatusChange(orderId: string, deliveryStatus: string) {
+    startTransition(async () => {
+      try {
+        await updateDeliveryStatus(orderId, deliveryStatus);
+        toast.success(`Delivery marked ${DELIVERY_LABEL[deliveryStatus]}`);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Something went wrong");
+      }
+    });
+  }
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -67,6 +91,7 @@ export function OrdersTable({
             <TableHead>Payment</TableHead>
             <TableHead>Total</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Delivery</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Invoice</TableHead>
           </TableRow>
@@ -74,7 +99,7 @@ export function OrdersTable({
         <TableBody>
           {orders.length === 0 && (
             <TableRow>
-              <TableCell colSpan={9} className="text-center text-muted-foreground">
+              <TableCell colSpan={10} className="text-center text-muted-foreground">
                 No orders yet. Ring up a sale in Sales · POS, or share your storefront link.
               </TableCell>
             </TableRow>
@@ -126,6 +151,38 @@ export function OrdersTable({
                     ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
+              </TableCell>
+              <TableCell>
+                {isOnline ? (
+                  <div className="flex flex-col items-start gap-1.5">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        nativeButton={false}
+                        render={
+                          <Badge variant="outline" className="cursor-pointer whitespace-nowrap">
+                            {order.delivery_status ? DELIVERY_LABEL[order.delivery_status] : "Not started"}
+                          </Badge>
+                        }
+                      />
+                      <DropdownMenuContent align="start">
+                        {DELIVERY_OPTIONS.map((opt) => (
+                          <DropdownMenuItem
+                            key={opt.value}
+                            disabled={isPending}
+                            onClick={() => handleDeliveryStatusChange(order.id, opt.value)}
+                          >
+                            {opt.label}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    {order.delivery_status === "out_for_delivery" && (
+                      <DeliveryLocationButton orderId={order.id} />
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
               </TableCell>
               <TableCell className="text-muted-foreground">
                 {new Date(order.created_at).toLocaleDateString()}

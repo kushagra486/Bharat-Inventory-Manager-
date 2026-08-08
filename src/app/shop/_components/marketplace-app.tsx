@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import type { Session } from "@supabase/supabase-js";
@@ -55,6 +55,10 @@ export function MarketplaceApp({
   const [cart, setCart] = useState<CartLine[]>([]);
   const [customerRows, setCustomerRows] = useState<CustomerRow[]>([]);
   const [orders, setOrders] = useState<OrderVM[] | null>(null);
+  const ordersRef = useRef(orders);
+  useEffect(() => {
+    ordersRef.current = orders;
+  }, [orders]);
   const [pendingPayments, setPendingPayments] = useState<PendingPayment[] | null>(null);
 
   const currentShop = shopId ? (shops.find((s) => s.id === shopId) ?? null) : null;
@@ -130,7 +134,7 @@ export function MarketplaceApp({
       const { data } = await supabase
         .from("sales_orders")
         .select(
-          "id, order_number, status, total, created_at, user_id, sales_order_items(product_name, quantity, unit_price, line_total)",
+          "id, order_number, status, total, created_at, user_id, delivery_status, delivery_lat, delivery_lng, sales_order_items(product_name, quantity, unit_price, line_total)",
         )
         .in(
           "customer_id",
@@ -144,6 +148,9 @@ export function MarketplaceApp({
         total: Number(o.total),
         createdAt: o.created_at,
         shopName: shopsById.get(o.user_id)?.name ?? "Shop",
+        deliveryStatus: o.delivery_status,
+        deliveryLat: o.delivery_lat !== null ? Number(o.delivery_lat) : null,
+        deliveryLng: o.delivery_lng !== null ? Number(o.delivery_lng) : null,
         items: (o.sales_order_items ?? []).map((i) => ({
           productName: i.product_name,
           quantity: i.quantity,
@@ -187,8 +194,13 @@ export function MarketplaceApp({
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "sales_orders" },
         (payload) => {
-          const order = payload.new as { order_number: string; status: string };
-          toast.success(`Order ${order.order_number} is now ${order.status}`);
+          const order = payload.new as { id: string; order_number: string; status: string };
+          const known = ordersRef.current?.find((o) => o.id === order.id);
+          // Live-location pings update the same row far more often than the
+          // status changes — only toast on an actual status transition.
+          if (!known || known.status !== order.status) {
+            toast.success(`Order ${order.order_number} is now ${order.status}`);
+          }
           refreshOrders();
         },
       )

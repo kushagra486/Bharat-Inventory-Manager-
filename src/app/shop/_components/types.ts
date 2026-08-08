@@ -63,6 +63,9 @@ export type OrderVM = {
   createdAt: string;
   shopName: string;
   items: OrderItemVM[];
+  deliveryStatus: string | null;
+  deliveryLat: number | null;
+  deliveryLng: number | null;
 };
 
 export type Screen = "home" | "search" | "cart" | "orders" | "profile";

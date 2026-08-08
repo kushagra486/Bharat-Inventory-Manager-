@@ -354,7 +354,9 @@ vision (see [VISION.md](./VISION.md) for the full list):
 - ✅ Maintained Playwright E2E suite (`tests/e2e/`, see [Testing](#-testing))
 - ✅ OCR product label scanning (open-source Tesseract.js, self-hosted — no cloud OCR API)
 - ✅ Voice input for both AI chats (dashboard Ask BIM AI + storefront Bharat AI search), via the browser's built-in Web Speech API — no cloud speech service
-- 🚚 Live delivery tracking for storefront orders
+- ✅ Live delivery tracking for storefront orders — owner-driven status (Packed → Out for delivery → Delivered) plus optional live GPS shared from the owner's own device, shown to the customer on a free OpenStreetMap tile map, all synced in real time via the existing Realtime channel
+
+That's the full roadmap from [VISION.md](./VISION.md) shipped, end to end.
 
 ## 🤝 Contributing
 

@@ -1,13 +1,24 @@
 "use client";
 
-import { FileText, Package } from "lucide-react";
+import dynamic from "next/dynamic";
+import { FileText, Package, Truck } from "lucide-react";
 import type { OrderVM } from "@/app/shop/_components/types";
+
+// Leaflet touches `window` at module scope, so it must never be evaluated
+// during SSR — loaded client-only regardless of where it's used.
+const DeliveryMap = dynamic(() => import("@/app/shop/_components/delivery-map"), { ssr: false });
 
 const STATUS_STYLES: Record<string, string> = {
   pending: "bg-[#fff3e4] text-[#b3651a]",
   completed: "bg-[#e5f9f1] text-[#07845e]",
   cancelled: "bg-[#fff0f5] text-[#f34984]",
 };
+
+const DELIVERY_STEPS = [
+  { value: "packed", label: "Packed" },
+  { value: "out_for_delivery", label: "Out for delivery" },
+  { value: "delivered", label: "Delivered" },
+];
 
 export function OrdersScreen({
   isAuthenticated,
@@ -66,6 +77,41 @@ export function OrdersScreen({
               <p className="mt-1 text-[11px] text-muted-foreground">
                 {new Date(order.createdAt).toLocaleString()}
               </p>
+
+              {order.deliveryStatus && (
+                <div className="mt-2.5 flex items-center gap-1.5 rounded-[10px] bg-[#f1f6ff] px-2.5 py-2">
+                  <Truck className="size-3.5 shrink-0 text-primary" />
+                  <div className="flex flex-1 items-center gap-1">
+                    {DELIVERY_STEPS.map((step, i) => {
+                      const stepIndex = DELIVERY_STEPS.findIndex((s) => s.value === order.deliveryStatus);
+                      const reached = i <= stepIndex;
+                      return (
+                        <span key={step.value} className="flex flex-1 items-center gap-1">
+                          <span
+                            className={`text-[10px] font-extrabold whitespace-nowrap ${
+                              reached ? "text-primary" : "text-muted-foreground"
+                            }`}
+                          >
+                            {step.label}
+                          </span>
+                          {i < DELIVERY_STEPS.length - 1 && (
+                            <span className={`h-px flex-1 ${reached ? "bg-primary" : "bg-border"}`} />
+                          )}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {order.deliveryStatus === "out_for_delivery" &&
+                order.deliveryLat !== null &&
+                order.deliveryLng !== null && (
+                  <div className="mt-2.5">
+                    <DeliveryMap lat={order.deliveryLat} lng={order.deliveryLng} shopName={order.shopName} />
+                  </div>
+                )}
+
               <ul className="mt-2.5 flex flex-col gap-1">
                 {order.items.map((item, i) => (
                   <li key={i} className="flex justify-between text-xs text-muted-foreground">

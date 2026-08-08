@@ -84,6 +84,10 @@ export type Database = {
         Row: {
           created_at: string
           customer_id: string | null
+          delivery_lat: number | null
+          delivery_lng: number | null
+          delivery_status: string | null
+          delivery_updated_at: string | null
           id: string
           order_number: string
           payment_method: string
@@ -96,6 +100,10 @@ export type Database = {
         Insert: {
           created_at?: string
           customer_id?: string | null
+          delivery_lat?: number | null
+          delivery_lng?: number | null
+          delivery_status?: string | null
+          delivery_updated_at?: string | null
           id?: string
           order_number: string
           payment_method?: string
@@ -108,6 +116,10 @@ export type Database = {
         Update: {
           created_at?: string
           customer_id?: string | null
+          delivery_lat?: number | null
+          delivery_lng?: number | null
+          delivery_status?: string | null
+          delivery_updated_at?: string | null
           id?: string
           order_number?: string
           payment_method?: string
