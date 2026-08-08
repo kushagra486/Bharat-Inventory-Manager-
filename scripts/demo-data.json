@@ -1,0 +1,1419 @@
+{
+  "Shop 1 Inventory": [
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-001",
+      "name": "Full Cream Milk",
+      "pack": "500 ml packet",
+      "price": 32
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-002",
+      "name": "Toned Milk",
+      "pack": "1 litre packet",
+      "price": 62
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-003",
+      "name": "Curd (Dahi)",
+      "pack": "400 g tub",
+      "price": 55
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-004",
+      "name": "Paneer",
+      "pack": "200 g pack",
+      "price": 95
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-005",
+      "name": "Butter",
+      "pack": "100 g pack",
+      "price": 62
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-006",
+      "name": "White Bread",
+      "pack": "400 g loaf",
+      "price": 45
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-007",
+      "name": "Brown Bread",
+      "pack": "400 g loaf",
+      "price": 55
+    },
+    {
+      "category": "Dairy & Bakery",
+      "code": "GR-DY-008",
+      "name": "Eggs",
+      "pack": "6 pieces",
+      "price": 48
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-001",
+      "name": "Banana (Robusta)",
+      "pack": "1 kg",
+      "price": 55
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-002",
+      "name": "Apple (Shimla)",
+      "pack": "1 kg",
+      "price": 180
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-003",
+      "name": "Orange",
+      "pack": "1 kg",
+      "price": 90
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-004",
+      "name": "Mango (seasonal)",
+      "pack": "1 kg",
+      "price": 140
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-005",
+      "name": "Papaya",
+      "pack": "1 kg",
+      "price": 60
+    },
+    {
+      "category": "Fruits",
+      "code": "GR-FR-006",
+      "name": "Pomegranate",
+      "pack": "1 kg",
+      "price": 180
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-001",
+      "name": "Potato",
+      "pack": "1 kg",
+      "price": 35
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-002",
+      "name": "Onion",
+      "pack": "1 kg",
+      "price": 45
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-003",
+      "name": "Tomato",
+      "pack": "1 kg",
+      "price": 50
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-004",
+      "name": "Carrot",
+      "pack": "500 g",
+      "price": 35
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-005",
+      "name": "Cauliflower",
+      "pack": "1 piece",
+      "price": 55
+    },
+    {
+      "category": "Vegetables",
+      "code": "GR-VG-006",
+      "name": "Coriander Leaves",
+      "pack": "100 g bunch",
+      "price": 20
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-001",
+      "name": "Basmati Rice",
+      "pack": "1 kg",
+      "price": 130
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-002",
+      "name": "Sona Masoori Rice",
+      "pack": "1 kg",
+      "price": 75
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-003",
+      "name": "Whole Wheat Atta",
+      "pack": "5 kg",
+      "price": 300
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-004",
+      "name": "Toor Dal",
+      "pack": "1 kg",
+      "price": 190
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-005",
+      "name": "Moong Dal",
+      "pack": "1 kg",
+      "price": 160
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-006",
+      "name": "Chana Dal",
+      "pack": "1 kg",
+      "price": 110
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-007",
+      "name": "Sugar",
+      "pack": "1 kg",
+      "price": 50
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-008",
+      "name": "Iodised Salt",
+      "pack": "1 kg",
+      "price": 25
+    },
+    {
+      "category": "Staples & Pulses",
+      "code": "GR-ST-009",
+      "name": "Besan",
+      "pack": "500 g",
+      "price": 55
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-001",
+      "name": "Sunflower Oil",
+      "pack": "1 litre",
+      "price": 150
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-002",
+      "name": "Mustard Oil",
+      "pack": "1 litre",
+      "price": 185
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-003",
+      "name": "Ghee",
+      "pack": "500 ml",
+      "price": 340
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-004",
+      "name": "Tea",
+      "pack": "250 g pack",
+      "price": 140
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-005",
+      "name": "Instant Coffee",
+      "pack": "100 g jar",
+      "price": 260
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-006",
+      "name": "Masala Biscuits",
+      "pack": "200 g pack",
+      "price": 35
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-007",
+      "name": "Potato Chips",
+      "pack": "50 g pack",
+      "price": 20
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-008",
+      "name": "Instant Noodles",
+      "pack": "70 g pack",
+      "price": 15
+    },
+    {
+      "category": "Cooking & Snacks",
+      "code": "GR-CS-009",
+      "name": "Tomato Ketchup",
+      "pack": "500 g bottle",
+      "price": 110
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-001",
+      "name": "Detergent Powder",
+      "pack": "1 kg pack",
+      "price": 130
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-002",
+      "name": "Detergent Bar",
+      "pack": "250 g bar",
+      "price": 25
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-003",
+      "name": "Dishwash Bar",
+      "pack": "200 g bar",
+      "price": 25
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-004",
+      "name": "Dishwash Liquid",
+      "pack": "500 ml bottle",
+      "price": 110
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-005",
+      "name": "Floor Cleaner",
+      "pack": "500 ml bottle",
+      "price": 95
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-006",
+      "name": "Toilet Cleaner",
+      "pack": "500 ml bottle",
+      "price": 105
+    },
+    {
+      "category": "Cleaning & Home Care",
+      "code": "GR-HC-007",
+      "name": "Garbage Bags",
+      "pack": "30 bags roll",
+      "price": 85
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-001",
+      "name": "Bath Soap",
+      "pack": "125 g bar",
+      "price": 35
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-002",
+      "name": "Toothpaste",
+      "pack": "150 g tube",
+      "price": 105
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-003",
+      "name": "Toothbrush",
+      "pack": "1 piece",
+      "price": 45
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-004",
+      "name": "Shampoo",
+      "pack": "180 ml bottle",
+      "price": 165
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-005",
+      "name": "Handwash",
+      "pack": "250 ml bottle",
+      "price": 80
+    },
+    {
+      "category": "Personal Care",
+      "code": "GR-PC-006",
+      "name": "Sanitary Pads",
+      "pack": "8 pads pack",
+      "price": 100
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-001",
+      "name": "Frozen Green Peas",
+      "pack": "500 g pack",
+      "price": 60
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-002",
+      "name": "Frozen Paratha",
+      "pack": "5 pieces pack",
+      "price": 90
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-003",
+      "name": "Ice Cream Tub",
+      "pack": "700 ml tub",
+      "price": 180
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-004",
+      "name": "Cold Coffee Bottle",
+      "pack": "250 ml bottle",
+      "price": 40
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-005",
+      "name": "Buttermilk",
+      "pack": "200 ml pouch",
+      "price": 15
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-006",
+      "name": "Soy Milk",
+      "pack": "1 litre pack",
+      "price": 110
+    },
+    {
+      "category": "Beverages & Frozen",
+      "code": "GR-BF-007",
+      "name": "Frozen Corn",
+      "pack": "500 g pack",
+      "price": 70
+    }
+  ],
+  "Shop 2 Inventory": [
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-001",
+      "name": "Bath Soap",
+      "pack": "125 g bar",
+      "price": 35
+    },
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-002",
+      "name": "Toothpaste",
+      "pack": "150 g tube",
+      "price": 105
+    },
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-003",
+      "name": "Toothbrush",
+      "pack": "1 piece",
+      "price": 45
+    },
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-004",
+      "name": "Shampoo Sachet",
+      "pack": "6 ml sachet",
+      "price": 2
+    },
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-005",
+      "name": "Hair Oil",
+      "pack": "200 ml bottle",
+      "price": 110
+    },
+    {
+      "category": "Daily Essentials",
+      "code": "GS-DE-006",
+      "name": "Deodorant",
+      "pack": "150 ml can",
+      "price": 180
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-001",
+      "name": "Instant Noodles",
+      "pack": "70 g pack",
+      "price": 15
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-002",
+      "name": "Biscuits",
+      "pack": "200 g pack",
+      "price": 35
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-003",
+      "name": "Namkeen",
+      "pack": "200 g pack",
+      "price": 55
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-004",
+      "name": "Potato Chips",
+      "pack": "50 g pack",
+      "price": 20
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-005",
+      "name": "Soft Drink",
+      "pack": "750 ml bottle",
+      "price": 45
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-006",
+      "name": "Packaged Water",
+      "pack": "1 litre bottle",
+      "price": 20
+    },
+    {
+      "category": "Food & Drinks",
+      "code": "GS-FD-007",
+      "name": "Fruit Juice",
+      "pack": "1 litre pack",
+      "price": 120
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-001",
+      "name": "Detergent Powder",
+      "pack": "1 kg pack",
+      "price": 130
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-002",
+      "name": "Dishwash Bar",
+      "pack": "200 g bar",
+      "price": 25
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-003",
+      "name": "Floor Cleaner",
+      "pack": "500 ml bottle",
+      "price": 95
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-004",
+      "name": "Mosquito Repellent Refill",
+      "pack": "45 ml refill",
+      "price": 95
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-005",
+      "name": "Garbage Bags",
+      "pack": "30 bags roll",
+      "price": 85
+    },
+    {
+      "category": "Household",
+      "code": "GS-HH-006",
+      "name": "Matchbox",
+      "pack": "10 boxes pack",
+      "price": 30
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-001",
+      "name": "LED Bulb",
+      "pack": "9 W piece",
+      "price": 120
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-002",
+      "name": "Torch",
+      "pack": "1 piece",
+      "price": 180
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-003",
+      "name": "AA Battery",
+      "pack": "2 cells pack",
+      "price": 55
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-004",
+      "name": "Mobile Charging Cable",
+      "pack": "1 metre",
+      "price": 150
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-005",
+      "name": "Mobile Charger",
+      "pack": "20 W piece",
+      "price": 450
+    },
+    {
+      "category": "Utility & Mobile",
+      "code": "GS-UM-006",
+      "name": "Umbrella",
+      "pack": "1 piece",
+      "price": 350
+    },
+    {
+      "category": "Stationery",
+      "code": "GS-ST-001",
+      "name": "Ball Pen",
+      "pack": "1 piece",
+      "price": 10
+    },
+    {
+      "category": "Stationery",
+      "code": "GS-ST-002",
+      "name": "Notebook",
+      "pack": "172 pages",
+      "price": 65
+    },
+    {
+      "category": "Stationery",
+      "code": "GS-ST-003",
+      "name": "Pencil",
+      "pack": "1 piece",
+      "price": 8
+    },
+    {
+      "category": "Stationery",
+      "code": "GS-ST-004",
+      "name": "A4 Paper",
+      "pack": "100 sheets pack",
+      "price": 180
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-001",
+      "name": "Baby Diapers",
+      "pack": "10 pieces pack",
+      "price": 250
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-002",
+      "name": "Baby Powder",
+      "pack": "100 g bottle",
+      "price": 90
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-003",
+      "name": "Feeding Bottle",
+      "pack": "250 ml piece",
+      "price": 150
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-004",
+      "name": "Baby Wipes",
+      "pack": "72 wipes pack",
+      "price": 180
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-005",
+      "name": "Baby Soap",
+      "pack": "75 g bar",
+      "price": 60
+    },
+    {
+      "category": "Baby & Kids",
+      "code": "GS-BK-006",
+      "name": "Baby Oil",
+      "pack": "100 ml bottle",
+      "price": 120
+    }
+  ],
+  "Shop 3 Inventory": [
+    {
+      "category": "Mobiles",
+      "code": "EL-MB-001",
+      "name": "Android Smartphone - Entry",
+      "pack": "4 GB / 64 GB",
+      "price": 7999
+    },
+    {
+      "category": "Mobiles",
+      "code": "EL-MB-002",
+      "name": "Android Smartphone - Midrange",
+      "pack": "8 GB / 128 GB",
+      "price": 15999
+    },
+    {
+      "category": "Mobiles",
+      "code": "EL-MB-003",
+      "name": "5G Smartphone",
+      "pack": "8 GB / 256 GB",
+      "price": 24999
+    },
+    {
+      "category": "Mobiles",
+      "code": "EL-MB-004",
+      "name": "Feature Phone",
+      "pack": "Dual SIM",
+      "price": 1499
+    },
+    {
+      "category": "Mobiles",
+      "code": "EL-MB-005",
+      "name": "Tablet",
+      "pack": "4 GB / 64 GB",
+      "price": 14999
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-001",
+      "name": "Laptop - Student",
+      "pack": "Intel i3 / 8 GB / 512 GB",
+      "price": 42999
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-002",
+      "name": "Laptop - Office",
+      "pack": "Intel i5 / 16 GB / 512 GB",
+      "price": 62999
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-003",
+      "name": "Laptop - Gaming",
+      "pack": "Ryzen 5 / 16 GB / 512 GB",
+      "price": 79999
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-004",
+      "name": "Wireless Mouse",
+      "pack": "1 piece",
+      "price": 799
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-005",
+      "name": "USB Keyboard",
+      "pack": "1 piece",
+      "price": 699
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-006",
+      "name": "Laptop Backpack",
+      "pack": "15.6 inch",
+      "price": 1499
+    },
+    {
+      "category": "Computers",
+      "code": "EL-CP-007",
+      "name": "USB Pen Drive",
+      "pack": "64 GB",
+      "price": 699
+    },
+    {
+      "category": "Audio & Wearables",
+      "code": "EL-AU-001",
+      "name": "Wireless Earbuds",
+      "pack": "1 piece",
+      "price": 1499
+    },
+    {
+      "category": "Audio & Wearables",
+      "code": "EL-AU-002",
+      "name": "Bluetooth Neckband",
+      "pack": "1 piece",
+      "price": 1299
+    },
+    {
+      "category": "Audio & Wearables",
+      "code": "EL-AU-003",
+      "name": "Bluetooth Speaker",
+      "pack": "10 W",
+      "price": 1999
+    },
+    {
+      "category": "Audio & Wearables",
+      "code": "EL-AU-004",
+      "name": "Headphones",
+      "pack": "Wired",
+      "price": 899
+    },
+    {
+      "category": "Audio & Wearables",
+      "code": "EL-AU-005",
+      "name": "Smartwatch",
+      "pack": "1 piece",
+      "price": 2499
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-001",
+      "name": "20 W Mobile Charger",
+      "pack": "1 piece",
+      "price": 699
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-002",
+      "name": "USB-C Cable",
+      "pack": "1 metre",
+      "price": 299
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-003",
+      "name": "Power Bank",
+      "pack": "10000 mAh",
+      "price": 1499
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-004",
+      "name": "Tempered Glass",
+      "pack": "1 piece",
+      "price": 199
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-005",
+      "name": "Mobile Case",
+      "pack": "1 piece",
+      "price": 299
+    },
+    {
+      "category": "Mobile Accessories",
+      "code": "EL-MA-006",
+      "name": "Car Charger",
+      "pack": "1 piece",
+      "price": 599
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-001",
+      "name": "LED Bulb",
+      "pack": "9 W",
+      "price": 120
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-002",
+      "name": "LED Batten",
+      "pack": "20 W",
+      "price": 450
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-003",
+      "name": "Extension Board",
+      "pack": "4 socket",
+      "price": 699
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-004",
+      "name": "Universal Adapter",
+      "pack": "1 piece",
+      "price": 499
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-005",
+      "name": "Electrical Switch",
+      "pack": "6 A",
+      "price": 95
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-006",
+      "name": "Ceiling Fan",
+      "pack": "1200 mm",
+      "price": 2499
+    },
+    {
+      "category": "Electrical Solutions",
+      "code": "EL-ES-007",
+      "name": "Emergency Light",
+      "pack": "Rechargeable",
+      "price": 1299
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-001",
+      "name": "Gaming Controller",
+      "pack": "Wired",
+      "price": 1299
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-002",
+      "name": "Gaming Headset",
+      "pack": "Wired",
+      "price": 1799
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-003",
+      "name": "HDMI Cable",
+      "pack": "1.5 metre",
+      "price": 399
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-004",
+      "name": "Webcam",
+      "pack": "1080p",
+      "price": 1499
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-005",
+      "name": "Mini LED Projector",
+      "pack": "1 piece",
+      "price": 4999
+    },
+    {
+      "category": "Gaming & Smart Accessories",
+      "code": "EL-GM-006",
+      "name": "Smart Plug",
+      "pack": "WiFi, 1 piece",
+      "price": 899
+    }
+  ],
+  "Shop 4 Inventory": [
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-001",
+      "name": "Face Wash",
+      "pack": "100 ml tube",
+      "price": 180
+    },
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-002",
+      "name": "Moisturiser",
+      "pack": "100 ml jar",
+      "price": 260
+    },
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-003",
+      "name": "Sunscreen SPF 50",
+      "pack": "50 g tube",
+      "price": 450
+    },
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-004",
+      "name": "Face Serum",
+      "pack": "30 ml bottle",
+      "price": 650
+    },
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-005",
+      "name": "Micellar Water",
+      "pack": "125 ml bottle",
+      "price": 299
+    },
+    {
+      "category": "Women - Skin Care",
+      "code": "CS-WS-006",
+      "name": "Face Mask",
+      "pack": "1 sheet",
+      "price": 120
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-001",
+      "name": "Lipstick",
+      "pack": "1 piece",
+      "price": 499
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-002",
+      "name": "Kajal",
+      "pack": "1 piece",
+      "price": 199
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-003",
+      "name": "Compact Powder",
+      "pack": "1 piece",
+      "price": 350
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-004",
+      "name": "Liquid Foundation",
+      "pack": "30 ml bottle",
+      "price": 599
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-005",
+      "name": "Nail Polish",
+      "pack": "1 bottle",
+      "price": 150
+    },
+    {
+      "category": "Women - Makeup",
+      "code": "CS-WM-006",
+      "name": "Makeup Remover",
+      "pack": "100 ml bottle",
+      "price": 250
+    },
+    {
+      "category": "Hair Care",
+      "code": "CS-HC-001",
+      "name": "Shampoo",
+      "pack": "180 ml bottle",
+      "price": 199
+    },
+    {
+      "category": "Hair Care",
+      "code": "CS-HC-002",
+      "name": "Conditioner",
+      "pack": "180 ml bottle",
+      "price": 210
+    },
+    {
+      "category": "Hair Care",
+      "code": "CS-HC-003",
+      "name": "Hair Oil",
+      "pack": "200 ml bottle",
+      "price": 160
+    },
+    {
+      "category": "Hair Care",
+      "code": "CS-HC-004",
+      "name": "Hair Serum",
+      "pack": "100 ml bottle",
+      "price": 450
+    },
+    {
+      "category": "Hair Care",
+      "code": "CS-HC-005",
+      "name": "Hair Colour",
+      "pack": "1 pack",
+      "price": 250
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-001",
+      "name": "Men Face Wash",
+      "pack": "100 ml tube",
+      "price": 180
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-002",
+      "name": "Shaving Foam",
+      "pack": "200 g can",
+      "price": 225
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-003",
+      "name": "Razor",
+      "pack": "1 piece",
+      "price": 199
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-004",
+      "name": "Beard Oil",
+      "pack": "30 ml bottle",
+      "price": 350
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-005",
+      "name": "After Shave",
+      "pack": "100 ml bottle",
+      "price": 280
+    },
+    {
+      "category": "Men - Grooming",
+      "code": "CS-MG-006",
+      "name": "Deodorant",
+      "pack": "150 ml can",
+      "price": 220
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-001",
+      "name": "Body Lotion",
+      "pack": "200 ml bottle",
+      "price": 280
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-002",
+      "name": "Perfume",
+      "pack": "50 ml bottle",
+      "price": 799
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-003",
+      "name": "Bathing Soap",
+      "pack": "125 g bar",
+      "price": 65
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-004",
+      "name": "Body Wash",
+      "pack": "250 ml bottle",
+      "price": 320
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-005",
+      "name": "Sanitary Pads",
+      "pack": "8 pads pack",
+      "price": 100
+    },
+    {
+      "category": "Body & Hygiene",
+      "code": "CS-BH-006",
+      "name": "Baby Wipes",
+      "pack": "72 wipes pack",
+      "price": 180
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-001",
+      "name": "Body Spray",
+      "pack": "150 ml can",
+      "price": 250
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-002",
+      "name": "Hair Straightener",
+      "pack": "1 piece",
+      "price": 1499
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-003",
+      "name": "Hair Dryer",
+      "pack": "1000 W",
+      "price": 899
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-004",
+      "name": "Nail Polish Remover",
+      "pack": "100 ml bottle",
+      "price": 80
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-005",
+      "name": "Cotton Pads",
+      "pack": "100 pieces pack",
+      "price": 90
+    },
+    {
+      "category": "Fragrance & Grooming Tools",
+      "code": "CS-FG-006",
+      "name": "Makeup Brush Set",
+      "pack": "6 pieces set",
+      "price": 350
+    }
+  ],
+  "Shop 5 Inventory": [
+    {
+      "category": "Writing",
+      "code": "ST-WR-001",
+      "name": "Ball Pen",
+      "pack": "1 piece",
+      "price": 10
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-002",
+      "name": "Gel Pen",
+      "pack": "1 piece",
+      "price": 20
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-003",
+      "name": "Roller Pen",
+      "pack": "1 piece",
+      "price": 35
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-004",
+      "name": "Pencil",
+      "pack": "1 piece",
+      "price": 8
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-005",
+      "name": "Mechanical Pencil",
+      "pack": "1 piece",
+      "price": 60
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-006",
+      "name": "Marker Pen",
+      "pack": "1 piece",
+      "price": 45
+    },
+    {
+      "category": "Writing",
+      "code": "ST-WR-007",
+      "name": "Highlighter",
+      "pack": "1 piece",
+      "price": 50
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-001",
+      "name": "Long Notebook",
+      "pack": "172 pages",
+      "price": 65
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-002",
+      "name": "Small Notebook",
+      "pack": "100 pages",
+      "price": 35
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-003",
+      "name": "Practical File",
+      "pack": "1 piece",
+      "price": 45
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-004",
+      "name": "A4 Copier Paper",
+      "pack": "500 sheets ream",
+      "price": 350
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-005",
+      "name": "Chart Paper",
+      "pack": "1 sheet",
+      "price": 15
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-006",
+      "name": "Sticky Notes",
+      "pack": "1 pad",
+      "price": 70
+    },
+    {
+      "category": "Paper & Notebooks",
+      "code": "ST-PN-007",
+      "name": "Envelope",
+      "pack": "10 pieces pack",
+      "price": 45
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-001",
+      "name": "Eraser",
+      "pack": "1 piece",
+      "price": 8
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-002",
+      "name": "Sharpener",
+      "pack": "1 piece",
+      "price": 10
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-003",
+      "name": "Ruler",
+      "pack": "30 cm piece",
+      "price": 20
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-004",
+      "name": "Geometry Box",
+      "pack": "1 set",
+      "price": 180
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-005",
+      "name": "Crayons",
+      "pack": "12 shades pack",
+      "price": 90
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-006",
+      "name": "Colour Pencils",
+      "pack": "12 shades pack",
+      "price": 110
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-007",
+      "name": "Sketch Pens",
+      "pack": "12 shades pack",
+      "price": 140
+    },
+    {
+      "category": "School Supplies",
+      "code": "ST-SS-008",
+      "name": "School Bag",
+      "pack": "1 piece",
+      "price": 899
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-001",
+      "name": "Stapler",
+      "pack": "No. 10",
+      "price": 120
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-002",
+      "name": "Staple Pins",
+      "pack": "1000 pins box",
+      "price": 30
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-003",
+      "name": "Glue Stick",
+      "pack": "22 g stick",
+      "price": 45
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-004",
+      "name": "Scissors",
+      "pack": "1 piece",
+      "price": 85
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-005",
+      "name": "Paper Clips",
+      "pack": "100 pieces box",
+      "price": 35
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-006",
+      "name": "Binder Clips",
+      "pack": "12 pieces box",
+      "price": 80
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-007",
+      "name": "Document File",
+      "pack": "1 piece",
+      "price": 35
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-008",
+      "name": "Calculator",
+      "pack": "12 digit",
+      "price": 450
+    },
+    {
+      "category": "Office Supplies",
+      "code": "ST-OS-009",
+      "name": "Whiteboard Marker",
+      "pack": "1 piece",
+      "price": 45
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-001",
+      "name": "Watercolor Paint Set",
+      "pack": "12 colours",
+      "price": 150
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-002",
+      "name": "Craft Paper Pack",
+      "pack": "20 sheets",
+      "price": 80
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-003",
+      "name": "Paint Brush Set",
+      "pack": "5 pieces",
+      "price": 90
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-004",
+      "name": "Craft Glue",
+      "pack": "50 g tube",
+      "price": 40
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-005",
+      "name": "Sketchbook",
+      "pack": "40 pages",
+      "price": 90
+    },
+    {
+      "category": "Art & Craft",
+      "code": "ST-AC-006",
+      "name": "Push Pins",
+      "pack": "50 pieces box",
+      "price": 35
+    }
+  ]
+}
