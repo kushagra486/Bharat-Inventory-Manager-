@@ -8,9 +8,11 @@ import { useVoiceInput } from "@/hooks/use-voice-input";
 import type { ProductVM } from "@/app/shop/_components/types";
 
 const PROMPTS = [
+  { icon: "🥛", label: "Dairy & bakery essentials" },
+  { icon: "🥦", label: "Fresh fruits & vegetables" },
+  { icon: "🍚", label: "Rice, dal & pantry staples" },
+  { icon: "🍪", label: "Snacks & beverages" },
   { icon: "🥗", label: "Plan dinner for 4" },
-  { icon: "💪", label: "High protein snacks" },
-  { icon: "🎂", label: "Birthday party essentials" },
   { icon: "☕", label: "Breakfast on a budget" },
 ];
 
