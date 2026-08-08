@@ -134,6 +134,7 @@ export function OrdersTable({
                 <Button
                   variant="ghost"
                   size="icon-xs"
+                  nativeButton={false}
                   render={
                     <a href={`/api/invoices/${order.id}`} target="_blank" rel="noopener noreferrer" />
                   }

@@ -47,6 +47,7 @@ Bharat Store marketplace for their customers — sharing one live database.**
 - [Getting started](#-getting-started)
 - [Environment variables](#-environment-variables)
 - [Deployment](#-deployment)
+- [Testing](#-testing)
 - [Project structure](#-project-structure)
 - [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
@@ -245,6 +246,9 @@ proper `supabase/` migrations folder.
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase project API URL |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | ✅ | Supabase publishable (anon) key — safe to expose client-side |
 | `GROQ_API_KEY` | Optional | Server-only. Enables the AI Insights chat. Get a free key at [console.groq.com/keys](https://console.groq.com/keys) |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` / `VAPID_PRIVATE_KEY` | Optional | Enables real browser push notifications. Generate with `npx web-push generate-vapid-keys` |
+| `CRON_SECRET` | Optional | Guards the `/api/cron/check-notifications` route that Vercel Cron calls daily. Any random string |
+| `SUPABASE_SERVICE_ROLE_KEY` | Optional | Server-only. Lets the notifications cron job read across all owners, and lets the E2E test suite clean up after itself. From Supabase → Project Settings → API |
 
 `.env.local.example` ships pre-filled with a working Supabase URL/key so
 `npm run dev` works out of the box. Rotate these if you fork this project for
@@ -263,6 +267,35 @@ your own deployment, and never commit a real `GROQ_API_KEY`.
 
 **GitHub Actions** (`.github/workflows/ci.yml`) runs lint + build on every
 push and pull request against `main`.
+
+## 🧪 Testing
+
+A real Playwright E2E suite lives in `tests/e2e/` — signup, staff invites,
+POS checkout + invoice download, the marketplace UPI checkout, and the
+barcode scanner dialog. Every test creates its own throwaway account
+(`e2e-<name>-<timestamp>@example.com`) rather than touching real data.
+
+```bash
+npx playwright install --with-deps chromium   # one-time
+npm run test:e2e                              # headless
+npm run test:e2e:ui                           # interactive
+```
+
+Tests run against `NEXT_PUBLIC_SUPABASE_URL`/`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+from `.env.local`, i.e. the same project the app talks to — point those at a
+dedicated test/staging Supabase project if you don't want E2E runs mixed
+into production data. Set `SUPABASE_SERVICE_ROLE_KEY` and each run's test
+accounts are deleted automatically afterwards; without it, they're printed
+so you can remove them by hand:
+
+```sql
+delete from auth.users where email like 'e2e-%@example.com';
+```
+
+**`.github/workflows/e2e.yml`** runs this suite nightly and on-demand
+(`workflow_dispatch`) — deliberately not on every push/PR, since it exercises
+a real Supabase project rather than a mock. Configure the same secrets as
+`ci.yml`, plus `SUPABASE_SERVICE_ROLE_KEY` for auto-cleanup.
 
 ## 🗂️ Project structure
 
@@ -309,13 +342,18 @@ src/
 The Owner Dashboard and the **Bharat Store** marketplace (`/shop`) are both
 built and live, connected in real time: browse every shop, add items from
 several to one cart, check out into real per-shop orders, and watch status
-updates arrive live in both apps. Still ahead, per the original product
+updates arrive live in both apps. Beyond that, per the original product
 vision (see [VISION.md](./VISION.md) for the full list):
 
-- 👷 Employee dashboard with role-based permissions
-- 🖼️ Barcode/OCR invoice scanning, voice assistant
-- 🔔 Real push/email delivery for expiry reminders (the settings exist; the sender doesn't yet)
-- 💳 Payments (Razorpay/Stripe), multi-store support, GST invoicing
+- ✅ Password reset flow
+- ✅ Employee accounts with POS-only role-based permissions
+- ✅ Real Web Push delivery for expiry reminders (open-source `web-push` + VAPID, no third-party sender)
+- ✅ UPI payment deep-link + QR at checkout (no payment gateway required)
+- ✅ GST-compliant tax invoice / bill-of-supply PDFs, generated server-side
+- ✅ Camera barcode scanning for products, in both Products and POS
+- ✅ Maintained Playwright E2E suite (`tests/e2e/`, see [Testing](#-testing))
+- 🖼️ OCR label/invoice scanning
+- 🗣️ Voice assistant
 - 🚚 Live delivery tracking for storefront orders
 
 ## 🤝 Contributing
